@@ -1,0 +1,23 @@
+.navbar {
+  width: 100%;
+  padding: 0 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.buttons {
+  max-width: 30vw;
+  margin-left: auto;
+}
+
+.header {
+  border-bottom: 1px solid #eaeaea;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
