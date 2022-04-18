@@ -5,16 +5,17 @@ import { useState } from 'react';
 interface Props {
   form: FormikProps<any>;
   field: FieldInputProps<any>;
+  className: string;
 }
 
 function PasswordInput(props: Props) {
-  const { form, field } = props;
+  const { form, field, className } = props;
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
   return (
-    <FormControl isInvalid={(form.errors.password && form.touched.password) as any}>
+    <FormControl className={className} isInvalid={(form.errors.password && form.touched.password) as any}>
       <FormLabel htmlFor='password'>Пароль</FormLabel>
       <InputGroup size='md'>
         <Input pr='4.5rem' {...field} id='password' type={show ? 'text' : 'password'} placeholder='Введите пароль' />
