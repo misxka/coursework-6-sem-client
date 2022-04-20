@@ -75,10 +75,10 @@ function LoginForm() {
                 {({ field, form }: FieldProps) => <EmailInput field={field} form={form} className={styles.field} />}
               </Field>
               <Stack direction='row' spacing={8} align='baseline'>
-                <Button mt={4} colorScheme='teal' isLoading={props.isSubmitting} type='submit'>
+                <Button mt={4} colorScheme='green' isLoading={props.isSubmitting} type='submit'>
                   Создать аккаунт
                 </Button>
-                <Button mt={4} colorScheme='teal' variant='outline' onClick={() => setIsSignupForm(false)}>
+                <Button mt={4} colorScheme='green' variant='outline' onClick={() => setIsSignupForm(false)}>
                   Уже есть аккаунт?
                 </Button>
               </Stack>
@@ -118,10 +118,10 @@ function LoginForm() {
                 {({ field, form }: FieldProps) => <PasswordInput className={styles.field} field={field} form={form} />}
               </Field>
               <Stack direction='row' spacing={8} align='baseline'>
-                <Button mt={4} colorScheme='teal' isLoading={props.isSubmitting} type='submit'>
+                <Button mt={4} colorScheme='green' isLoading={props.isSubmitting} type='submit'>
                   Войти
                 </Button>
-                <Button mt={4} colorScheme='teal' variant='outline' onClick={() => setIsSignupForm(true)}>
+                <Button mt={4} colorScheme='green' variant='outline' onClick={() => setIsSignupForm(true)}>
                   Ещё нет аккаунта?
                 </Button>
               </Stack>

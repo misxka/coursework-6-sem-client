@@ -21,12 +21,7 @@
   }
 
   &.train {
-    background-image: linear-gradient(
-      -225deg,
-      #ffe29f 0%,
-      #ffa99f 48%,
-      #ff719a 100%
-    );
+    background-image: linear-gradient(-225deg, #ffe29f 0%, #ffa99f 48%, #ff719a 100%);
   }
 
   &:hover {
@@ -57,4 +52,6 @@
   border-bottom-right-radius: 16px;
   text-align: center;
   padding: 10px 0;
+  font-weight: 500;
+  font-size: 1.2rem;
 }

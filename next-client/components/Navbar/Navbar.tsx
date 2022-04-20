@@ -11,7 +11,7 @@ function Navbar() {
         <div className={styles.buttons}>
           <Link href='/login'>
             <a>
-              <Button rightIcon={<Icon as={FaUserPlus} />} colorScheme='linkedin' variant='solid'>
+              <Button rightIcon={<Icon as={FaUserPlus} />} colorScheme='blue' variant='solid'>
                 Войти
               </Button>
             </a>
