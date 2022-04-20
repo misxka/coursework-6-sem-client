@@ -3,7 +3,7 @@
 }
 
 .main {
-  min-height: 100vh;
+  min-height: 90vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -111,5 +111,19 @@
   .grid {
     width: 100%;
     flex-direction: column;
+  }
+}
+
+.linkCards {
+  max-width: 100%;
+  margin: 43px auto 0;
+  display: grid;
+  grid-template-columns: repeat(4, 300px);
+  grid-gap: 18px;
+  justify-content: space-around;
+
+  & a {
+    display: block;
+    height: 250px;
   }
 }

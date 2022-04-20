@@ -1,11 +1,26 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
+import { CategoryCard } from '../components/CategoryCard/CategoryCard';
+import { Category, getAllCategories, getCategoryPaths } from '../utils/category';
 import Navbar from '../components/Navbar/Navbar';
 
 import styles from '../styles/Home.module.scss';
 
-const Home: NextPage = () => {
+interface Props {
+  categories: Category[];
+}
+
+export async function getStaticProps() {
+  const categories = await getAllCategories();
+  return {
+    props: {
+      categories
+    }
+  };
+}
+
+const Home: NextPage<Props> = ({ categories }) => {
   return (
     <div>
       <Head>
@@ -16,7 +31,13 @@ const Home: NextPage = () => {
 
       <Navbar />
 
-      <main className={styles.main}></main>
+      <main className={styles.main}>
+        <div className={styles.linkCards}>
+          {categories.map(({ id, name, cards }) => (
+            <CategoryCard key={id} id={id} name={name} playMode={false} image={cards ? cards[0].image : (process.env.NEXT_PUBLIC_DEFAULT_IMAGE as string)} />
+          ))}
+        </div>
+      </main>
     </div>
   );
 };

@@ -1,0 +1,60 @@
+.cardContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+  box-shadow: 3px 3px 4px rgb(0 0 0 / 10%);
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+  transition: all 0.5s ease;
+
+  &.play {
+    background-image: linear-gradient(to top, #9be15d 0%, #00e3ae 100%);
+  }
+
+  &.train {
+    background-image: linear-gradient(
+      -225deg,
+      #ffe29f 0%,
+      #ffa99f 48%,
+      #ff719a 100%
+    );
+  }
+
+  &:hover {
+    box-shadow: 0px 6px 20px rgb(0 0 0 / 25%);
+  }
+}
+
+.cardImage {
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  margin-top: 25px;
+  top: 0;
+  display: flex;
+  border-radius: inherit;
+  border-radius: 50%;
+}
+
+.cardContent {
+  background-color: #fff;
+  height: 50px;
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  text-align: center;
+  padding: 10px 0;
+}
