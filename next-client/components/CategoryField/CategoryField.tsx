@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
 
 import { erase } from '../../utils/slices/guessedSlice';
 import { RootState } from '../../utils/store';
@@ -30,6 +31,8 @@ export default function CategoryField(props: Props) {
 
   const router = useRouter();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [order, setOrder] = useState<number[]>([]);
   const [words, setWords] = useState<string[]>([]);
@@ -40,7 +43,7 @@ export default function CategoryField(props: Props) {
   const [resultOutput, setResultOutput] = useState<string>('');
 
   useEffect(() => {
-    setTimeout(() => playAudio(sounds[currentNumber]), 1000);
+    if (currentNumber !== 0) setTimeout(() => playAudio(sounds[currentNumber]), 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentNumber]);
 
@@ -76,12 +79,7 @@ export default function CategoryField(props: Props) {
     }
     setGameFinished(true);
 
-    setTimeout(() => {
-      setGameFinished(false);
-      dispatch(toggleGameStarted());
-      dispatch(erase());
-      router.push('/');
-    }, 5000);
+    onOpen();
   };
 
   const handleSuccessfulGuess = (): void => {
@@ -135,6 +133,16 @@ export default function CategoryField(props: Props) {
     }
   };
 
+  const handleModalClose = (): void => {
+    onClose();
+    setGameFinished(true);
+    dispatch(toggleGameStarted());
+    dispatch(erase());
+    setCurrentNumber(0);
+    setFailedNumber(0);
+    setResultOutput('');
+  };
+
   return (
     <div>
       <div className={styles.categoryField}>
@@ -149,9 +157,28 @@ export default function CategoryField(props: Props) {
           ))}
         </div>
         <StartButton startGame={startGame} currentAudio={sounds[currentNumber]} />
-        <div className={`${styles.resultMessage} ${failedNumber === 0 ? styles.success : styles.failure} ${gameFinished ? '' : styles.hidden}`}>
-          <p className={styles.resultMessage__text}>{resultOutput}</p>
-        </div>
+
+        <Modal isOpen={isOpen} onClose={handleModalClose} size='lg' isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalCloseButton />
+            <ModalHeader></ModalHeader>
+            <ModalBody>
+              <Flex direction='column' justifyContent='center' alignItems='center'>
+                <Text fontSize='xl' fontWeight='bold'>
+                  {resultOutput}
+                </Text>
+                <div className={`${styles.resultMessage} ${failedNumber === 0 ? styles.success : styles.failure}`}></div>
+              </Flex>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='blue' mr={3} onClick={handleModalClose}>
+                Продолжить
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </div>
     </div>
   );

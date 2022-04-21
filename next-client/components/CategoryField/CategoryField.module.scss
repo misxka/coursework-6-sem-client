@@ -34,37 +34,19 @@
 }
 
 .resultMessage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100%;
-  max-width: 100vw;
-  z-index: 30;
-  background-repeat: no-repeat;
-  background-size: 50vw;
-  background-position: center;
-
-  &.hidden {
-    visibility: hidden;
-  }
+  width: 16vw;
+  height: 16vw;
 
   &.success {
     background-color: #ffffff;
     background-image: url(../../public/success.svg);
+    background-repeat: no-repeat;
   }
 
   &.failure {
     background-color: #ffffff;
     background-image: url(../../public/failure.svg);
-  }
-
-  &__text {
-    margin: 20px auto 0;
-    width: 100%;
-    text-align: center;
-    color: #ef0909;
-    font-size: 3rem;
+    background-repeat: no-repeat;
   }
 }
 

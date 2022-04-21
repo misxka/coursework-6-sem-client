@@ -1,5 +1,5 @@
 .btn {
-  color: #0099ff;
+  color: #0070f3;
   background-size: 170%;
   background-position: 150% -50%;
 
@@ -8,9 +8,9 @@
     display: block;
     padding: 8px 30px 10px;
     border-radius: 50px;
-    border: 3px solid #0099ff;
+    border: 3px solid #0070f3;
     font-size: 1.6rem;
-    color: #0099ff;
+    color: #0070f3;
     background: transparent;
     background-image: url(../../public/wave.svg);
     background-repeat: no-repeat;
@@ -32,7 +32,7 @@
     }
 
     &:active {
-      background-color: #0099ff;
+      background-color: #0070f3;
       transform: translateY(0px);
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
     }
@@ -43,7 +43,7 @@
     display: block;
     padding: 25px;
     border-radius: 50%;
-    border: 3px solid #0099ff;
+    border: 3px solid #0070f3;
     font-size: 0;
     background: transparent;
     background-image: url(../../public/refresh.svg);
@@ -77,6 +77,10 @@
 
 @media screen and (min-width: 1024px) {
   .btn.startGame {
+    margin-top: auto;
+  }
+
+  .btn.repeatBtn {
     margin-top: auto;
   }
 }
