@@ -1,29 +1,31 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import ICard from '../../interfaces/ICard';
 import { erase } from '../../utils/slices/guessedSlice';
+import { RootState } from '../../utils/store';
+import { toggle as toggleGameStarted } from '../../utils/slices/gameStartedSlice';
+import { update as updateGuessed } from '../../utils/slices/guessedSlice';
+import { StartButton } from '../StartButton/StartButton';
+import { Card as CardType } from '../../utils/category';
+import Card from '../Card/Card';
+
+import styles from './CategoryField.module.scss';
 
 interface Props {
-  cards: ICard[];
-  gameStarted: boolean;
-  startGame: () => void;
-  animateCardOnGuess: (currentNumber: number, order: number[]) => void;
-  slideMenu: () => void;
-  changeGameMode: () => void;
-  isMenuHidden: boolean;
-  updateWordRecords: () => void;
+  cards: CardType[];
 }
 
-const successAudio = 'audio/success-sound.mp3';
-const failureAudio = 'audio/failure-sound.mp3';
-const finalSuccessAudio = 'audio/final-success-sound.mp3';
-const finalFailureAudio = 'audio/final-failure-sound.mp3';
+const successAudio = '/audio/success-sound.mp3';
+const failureAudio = '/audio/failure-sound.mp3';
+const finalSuccessAudio = '/audio/final-success-sound.mp3';
+const finalFailureAudio = '/audio/final-failure-sound.mp3';
 
 export default function CategoryField(props: Props) {
-  const { cards, animateCardOnGuess, gameStarted, updateWordRecords } = props;
+  const { cards } = props;
 
+  const gameStarted = useSelector((state: RootState) => state.gameStarted.value);
+  const guessed = useSelector((state: RootState) => state.guessed.value);
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -33,7 +35,6 @@ export default function CategoryField(props: Props) {
   const [words, setWords] = useState<string[]>([]);
   const [sounds, setSounds] = useState<string[]>([]);
   const [gameFinished, setGameFinished] = useState<boolean>(false);
-  const [guessed, setGuessed] = useState<boolean[]>(new Array().fill(false));
 
   let failedNumber = 0;
   let currentNumber = 0;
@@ -63,14 +64,14 @@ export default function CategoryField(props: Props) {
 
   const endGame = (): void => {
     // window.scroll(0, 0);
-    document.documentElement.classList.add('not-scrollable');
+    // document.documentElement.classList.add('not-scrollable');
 
     if (failedNumber > 0) {
       playAudio(finalFailureAudio);
-      resultOutput = `You lost! You've got ${failedNumber} error${failedNumber > 1 ? 's' : ''}.`;
+      resultOutput = `Увы... Количество неверных ответов: ${failedNumber}.`;
     } else {
       playAudio(finalSuccessAudio);
-      resultOutput = `You won!`;
+      resultOutput = `Без ошибок! Поздравляем!`;
     }
     setGameFinished(true);
 
@@ -84,7 +85,7 @@ export default function CategoryField(props: Props) {
   };
 
   const handleSuccessfulGuess = (): void => {
-    animateCardOnGuess(currentNumber, order);
+    dispatch(updateGuessed(order[currentNumber]));
 
     currentNumber++;
     if (currentNumber === sounds.length) {
@@ -107,19 +108,19 @@ export default function CategoryField(props: Props) {
 
     const words = order.map(elem => cards[elem].word);
 
-    startGame();
+    dispatch(toggleGameStarted());
 
     setAnswers([]);
     setOrder(order);
     setSounds(sounds);
     setWords(words);
-    setGuessed(new Array().fill(false));
     setGameFinished(false);
+    dispatch(erase());
 
     setTimeout(() => playAudio(sounds[0]), 500);
   };
 
-  const checkCard = (card: ICard): void => {
+  const checkCard = (card: CardType): void => {
     if (gameStarted) {
       let result = false;
       if (words[currentNumber] === card.word) result = true;
@@ -132,11 +133,27 @@ export default function CategoryField(props: Props) {
         updateAnswers(answers, false);
         playAudio(failureAudio);
       }
-
-      updateWordRecords();
     }
   };
-}
-function toggleGameStarted(): any {
-  throw new Error('Function not implemented.');
+
+  return (
+    <div>
+      <div className={styles.categoryField}>
+        <div className={styles.ratingStars}>
+          {answers.map((elem, index) => (
+            <div key={index} className={`${styles.star} ${elem === true ? styles.success : styles.fail}`}></div>
+          ))}
+        </div>
+        <div className={styles.cards}>
+          {cards.map((elem, index) => (
+            <Card key={elem.id} name={elem.word} image={elem.image} audioSrc={elem.audio} translation={elem.translation} checkCard={() => checkCard(elem)} guessed={guessed[index]} />
+          ))}
+        </div>
+        <StartButton startGame={startGame} currentAudio={sounds[currentNumber]} />
+        <div className={`${styles.resultMessage} ${failedNumber === 0 ? styles.success : styles.failure} ${gameFinished ? '' : styles.hidden}`}>
+          <p className={styles.resultMessage__text}>{resultOutput}</p>
+        </div>
+      </div>
+    </div>
+  );
 }

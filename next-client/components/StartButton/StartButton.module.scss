@@ -1,9 +1,9 @@
-button {
+.btn {
   color: #0099ff;
   background-size: 170%;
   background-position: 150% -50%;
 
-  &.start-game {
+  &.startGame {
     margin: 0 auto 12px;
     display: block;
     padding: 8px 30px 10px;
@@ -12,12 +12,11 @@ button {
     font-size: 1.6rem;
     color: #0099ff;
     background: transparent;
-    background-image: url(../../assets/img/wave.svg);
+    background-image: url(../../public/wave.svg);
     background-repeat: no-repeat;
     background-size: 170%;
     background-position: 150% -50%;
-    transition: background-position 0.8s ease-in, background-size 0.8s ease-in,
-      color 0.8s ease-in, box-shadow ease-out 0.2s, transform ease-out 0.2s;
+    transition: background-position 0.8s ease-in, background-size 0.8s ease-in, color 0.8s ease-in, box-shadow ease-out 0.2s, transform ease-out 0.2s;
     cursor: pointer;
     appearance: none;
     position: relative;
@@ -39,7 +38,7 @@ button {
     }
   }
 
-  &.repeat-button {
+  &.repeatBtn {
     margin: 0 auto 12px;
     display: block;
     padding: 25px;
@@ -47,7 +46,7 @@ button {
     border: 3px solid #0099ff;
     font-size: 0;
     background: transparent;
-    background-image: url(../../assets/img/refresh.svg);
+    background-image: url(../../public/refresh.svg);
     background-repeat: no-repeat;
     background-position: 35% 45%;
     background-size: 35px 35px;
@@ -77,7 +76,7 @@ button {
 }
 
 @media screen and (min-width: 1024px) {
-  button.start-game {
+  .btn.startGame {
     margin-top: auto;
   }
 }

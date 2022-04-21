@@ -1,0 +1,77 @@
+.ratingStars {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 0.7rem;
+  display: flex;
+  justify-content: flex-end;
+  height: 20px;
+  overflow-x: hidden;
+  align-self: flex-end;
+
+  & .star {
+    width: 20px;
+    height: 20px;
+    margin: 0 0.2rem;
+    flex-shrink: 0;
+    background-size: cover;
+
+    &.success {
+      background-image: url(../../public/success-star.svg);
+    }
+
+    &.fail {
+      background-image: url(../../public/failure-star.svg);
+    }
+  }
+}
+
+.cards {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.resultMessage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  z-index: 30;
+  background-repeat: no-repeat;
+  background-size: 50vw;
+  background-position: center;
+
+  &.hidden {
+    visibility: hidden;
+  }
+
+  &.success {
+    background-color: #ffffff;
+    background-image: url(../../public/success.svg);
+  }
+
+  &.failure {
+    background-color: #ffffff;
+    background-image: url(../../public/failure.svg);
+  }
+
+  &__text {
+    margin: 20px auto 0;
+    width: 100%;
+    text-align: center;
+    color: #ef0909;
+    font-size: 3rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .categoryField {
+    min-height: 72vh;
+    display: flex;
+    flex-direction: column;
+  }
+}

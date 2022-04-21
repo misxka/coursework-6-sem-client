@@ -1,10 +1,11 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
+import CategoryField from '../../components/CategoryField/CategoryField';
 
 import Layout from '../../components/Layout/Layout';
 import Navbar from '../../components/Navbar/Navbar';
 import { StartButton } from '../../components/StartButton/StartButton';
-import { Category, getCategoryById, getCategoryPaths } from '../../utils/category';
+import { Card, Category, getCategoryById, getCategoryPaths } from '../../utils/category';
 
 interface Props {
   categoryData: Category;
@@ -38,12 +39,12 @@ const Category: NextPage<Props> = ({ categoryData }) => {
 
   return (
     <Layout home={false} pageTitle={name} headerContent={<Navbar />}>
-      <div className='cards'>
+      {/* <div className='cards'>
         {cards?.map(card => (
           <div key={card.id}>{card.word}</div>
         ))}
-      </div>
-      {/* <StartButton gameStarted={this.props.gameStarted} playMode={this.props.playMode} startGame={this.startGame} currentAudio={this.state.sounds[this.currentNumber]} /> */}
+      </div> */}
+      <CategoryField cards={cards as Card[]} />
     </Layout>
   );
 };

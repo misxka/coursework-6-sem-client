@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ModeState {
   value: boolean[];
@@ -14,10 +14,14 @@ export const guessedSlice = createSlice({
   reducers: {
     erase: state => {
       state.value = new Array().fill(false);
+    },
+    update: (state, action: PayloadAction<number>) => {
+      state.value[action.payload] = true;
+      state.value = [...state.value];
     }
   }
 });
 
-export const { erase } = guessedSlice.actions;
+export const { erase, update } = guessedSlice.actions;
 
 export default guessedSlice.reducer;

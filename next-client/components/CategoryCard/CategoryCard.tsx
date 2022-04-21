@@ -1,21 +1,24 @@
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../utils/store';
 import styles from './CategoryCard.module.scss';
 
 interface Props {
   id: number;
   name: string;
-  playMode: boolean;
   image: string;
 }
 
 export function CategoryCard(props: Props) {
-  const { id, name, playMode, image } = props;
+  const { id, name, image } = props;
+
+  const gameMode = useSelector((state: RootState) => state.mode.value);
 
   return (
     <Link href={`/categories/${id}`}>
       <a>
         <div className={styles.cardContainer}>
-          <div className={`${styles.card} ${playMode ? styles.play : styles.train}`}>
+          <div className={`${styles.card} ${gameMode ? styles.play : styles.train}`}>
             <div
               className={styles.cardImage}
               style={{

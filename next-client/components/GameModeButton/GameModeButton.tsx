@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { toggle as toggleMode } from '../../utils/slices/modeSlice';
-import { toggle as toggleGameStarted } from '../../utils/slices/gameStartedSlice';
 import { RootState } from '../../utils/store';
 import { erase } from '../../utils/slices/guessedSlice';
 
@@ -14,7 +13,6 @@ export default function GameModeButton() {
 
   const changeMode = (): void => {
     dispatch(toggleMode());
-    dispatch(toggleGameStarted());
     dispatch(erase());
   };
 
