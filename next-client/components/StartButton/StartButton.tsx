@@ -1,5 +1,6 @@
 import React, { BaseSyntheticEvent, Component } from 'react';
-import './StartButton.scss';
+
+import styles from './StartButton.module.scss';
 
 interface Props {
   playMode: boolean;

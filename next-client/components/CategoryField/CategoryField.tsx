@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -6,10 +7,8 @@ import { erase } from '../../utils/slices/guessedSlice';
 
 interface Props {
   cards: ICard[];
-  playMode: boolean;
   gameStarted: boolean;
   startGame: () => void;
-  guessed: boolean[];
   animateCardOnGuess: (currentNumber: number, order: number[]) => void;
   slideMenu: () => void;
   changeGameMode: () => void;
@@ -26,6 +25,8 @@ export default function CategoryField(props: Props) {
   const { cards, animateCardOnGuess, gameStarted, updateWordRecords } = props;
 
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [order, setOrder] = useState<number[]>([]);
@@ -61,7 +62,7 @@ export default function CategoryField(props: Props) {
   };
 
   const endGame = (): void => {
-    window.scroll(0, 0);
+    // window.scroll(0, 0);
     document.documentElement.classList.add('not-scrollable');
 
     if (failedNumber > 0) {
@@ -77,7 +78,7 @@ export default function CategoryField(props: Props) {
       setGameFinished(false);
       dispatch(toggleGameStarted());
       dispatch(erase());
-      // window.location.hash = '/';
+      router.push('/');
       // document.documentElement.classList.remove('not-scrollable');
     }, 5000);
   };
