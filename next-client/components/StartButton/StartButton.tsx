@@ -15,9 +15,6 @@ export function StartButton(props: Props) {
   const gameStarted = useSelector((state: RootState) => state.gameStarted.value);
   const gameMode = useSelector((state: RootState) => state.mode.value);
 
-  console.log(gameMode);
-  console.log(gameStarted);
-
   const repeatAudio = (): void => {
     const audio = new Audio(currentAudio);
     audio.play();

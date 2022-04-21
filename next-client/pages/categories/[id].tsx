@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
 import CategoryField from '../../components/CategoryField/CategoryField';
+import GameModeButton from '../../components/GameModeButton/GameModeButton';
 
 import Layout from '../../components/Layout/Layout';
 import Navbar from '../../components/Navbar/Navbar';
@@ -38,12 +39,16 @@ const Category: NextPage<Props> = ({ categoryData }) => {
   const { name, cards } = categoryData;
 
   return (
-    <Layout home={false} pageTitle={name} headerContent={<Navbar />}>
-      {/* <div className='cards'>
-        {cards?.map(card => (
-          <div key={card.id}>{card.word}</div>
-        ))}
-      </div> */}
+    <Layout
+      home={false}
+      pageTitle={name}
+      headerContent={
+        <>
+          <GameModeButton />
+          <Navbar />
+        </>
+      }
+    >
       <CategoryField cards={cards as Card[]} />
     </Layout>
   );

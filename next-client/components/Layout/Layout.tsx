@@ -12,16 +12,14 @@ interface Props {
 
 export default function Layout({ children, home, pageTitle, headerContent }: Props) {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <link rel='icon' href='/favicon.ico' />
-        <meta name='description' content='Learn how to build a personal website using Next.js' />
         <title>{pageTitle}</title>
-        <meta name='twitter:card' content='summary_large_image' />
       </Head>
-      <header>{headerContent}</header>
+      <header className={styles.header}>{headerContent}</header>
       <main className={styles.main}>{children}</main>
-      <footer>
+      <footer className={styles.footer}>
         {!home && (
           <div className={styles.backToHome}>
             <Link href='/'>
