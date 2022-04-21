@@ -11,6 +11,7 @@
 .link {
   color: #0070f3;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .link:hover {
@@ -30,16 +31,10 @@
   height: 8vh;
   display: flex;
   flex: 1;
-  padding: 1rem 3rem;
+  padding: 1rem 6rem;
   border-top: 1px solid #eaeaea;
   align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+  justify-content: row;
 }
 
 .header {
@@ -52,4 +47,8 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.copyright {
+  margin-left: auto;
 }

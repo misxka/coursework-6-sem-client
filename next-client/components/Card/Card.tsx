@@ -1,3 +1,4 @@
+import { Text } from '@chakra-ui/react';
 import React, { BaseSyntheticEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -47,7 +48,9 @@ export default function Card(props: Props) {
             backgroundImage: `url(https://res.cloudinary.com/misxka/image/upload/${image}.jpg)`
           }}
         >
-          <div className={`${styles.cardContent} ${styles.title} ${gameMode ? styles.hidden : ''}`}>{name}</div>
+          <Text fontSize='lg' fontWeight='medium' className={`${styles.cardContent} ${styles.title} ${gameMode ? styles.hidden : ''}`}>
+            {name}
+          </Text>
         </div>
         <div
           className={`${styles.cardImage} ${styles.back} ${gameMode ? styles.hidden : ''}`}
@@ -55,7 +58,9 @@ export default function Card(props: Props) {
             backgroundImage: `url(https://res.cloudinary.com/misxka/image/upload/${image}.jpg)`
           }}
         >
-          <div className={`${styles.cardContent} ${styles.title}`}>{translation}</div>
+          <Text fontSize='lg' fontWeight='medium' className={`${styles.cardContent} ${styles.title}`}>
+            {translation}
+          </Text>
         </div>
         <div className={`flip-card ${styles.flip} ${gameMode ? styles.hidden : ''}`}>
           <svg className='flip-card' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'>

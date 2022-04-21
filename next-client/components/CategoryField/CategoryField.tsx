@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { erase } from '../../utils/slices/guessedSlice';
@@ -35,10 +35,14 @@ export default function CategoryField(props: Props) {
   const [words, setWords] = useState<string[]>([]);
   const [sounds, setSounds] = useState<string[]>([]);
   const [gameFinished, setGameFinished] = useState<boolean>(false);
+  const [currentNumber, setCurrentNumber] = useState<number>(0);
+  const [failedNumber, setFailedNumber] = useState<number>(0);
+  const [resultOutput, setResultOutput] = useState<string>('');
 
-  let failedNumber = 0;
-  let currentNumber = 0;
-  let resultOutput = '';
+  useEffect(() => {
+    setTimeout(() => playAudio(sounds[currentNumber]), 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentNumber]);
 
   const randomize = (): number[] => {
     const tasks: number[] = [];
@@ -63,15 +67,12 @@ export default function CategoryField(props: Props) {
   };
 
   const endGame = (): void => {
-    // window.scroll(0, 0);
-    // document.documentElement.classList.add('not-scrollable');
-
     if (failedNumber > 0) {
       playAudio(finalFailureAudio);
-      resultOutput = `Увы... Количество неверных ответов: ${failedNumber}.`;
+      setResultOutput(`Увы... Количество неверных ответов: ${failedNumber}.`);
     } else {
       playAudio(finalSuccessAudio);
-      resultOutput = `Без ошибок! Поздравляем!`;
+      setResultOutput(`Без ошибок! Поздравляем!`);
     }
     setGameFinished(true);
 
@@ -80,23 +81,21 @@ export default function CategoryField(props: Props) {
       dispatch(toggleGameStarted());
       dispatch(erase());
       router.push('/');
-      // document.documentElement.classList.remove('not-scrollable');
     }, 5000);
   };
 
   const handleSuccessfulGuess = (): void => {
     dispatch(updateGuessed(order[currentNumber]));
 
-    currentNumber++;
-    if (currentNumber === sounds.length) {
+    setCurrentNumber(currentNumber + 1);
+    if (currentNumber === sounds.length - 1) {
       endGame();
     } else {
       playAudio(successAudio);
-      setTimeout(() => playAudio(sounds[currentNumber]), 1000);
     }
   };
 
-  const updateAnswers = (answers: boolean[], condition: boolean): void => {
+  const updateAnswers = (condition: boolean): void => {
     answers.push(condition);
     setAnswers(answers);
   };
@@ -126,11 +125,11 @@ export default function CategoryField(props: Props) {
       if (words[currentNumber] === card.word) result = true;
 
       if (result) {
-        updateAnswers(answers, true);
+        updateAnswers(true);
         handleSuccessfulGuess();
       } else {
-        failedNumber++;
-        updateAnswers(answers, false);
+        setFailedNumber(failedNumber + 1);
+        updateAnswers(false);
         playAudio(failureAudio);
       }
     }

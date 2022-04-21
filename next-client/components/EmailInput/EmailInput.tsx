@@ -15,7 +15,9 @@ function EmailInput(props: Props) {
     <FormControl className={className} isInvalid={(form.errors.email && form.touched.email) as any}>
       <FormLabel htmlFor='email'>Email</FormLabel>
       <InputGroup>
-        <InputLeftElement pointerEvents='none' children={<Icon as={FaRegEnvelopeOpen} color='gray.400' />} />
+        <InputLeftElement pointerEvents='none'>
+          <Icon as={FaRegEnvelopeOpen} color='gray.400' />
+        </InputLeftElement>
         <Input {...field} id='email' type='email' placeholder='Email' />
       </InputGroup>
       <FormErrorMessage>{form.errors.email as any}</FormErrorMessage>

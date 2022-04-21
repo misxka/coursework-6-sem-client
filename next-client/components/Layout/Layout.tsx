@@ -1,3 +1,4 @@
+import { Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -27,6 +28,9 @@ export default function Layout({ children, home, pageTitle, headerContent }: Pro
             </Link>
           </div>
         )}
+        <Text fontSize='lg' color='blackAlpha.800' className={styles.copyright}>
+          © 2022 Школа иностранных языков
+        </Text>
       </footer>
     </div>
   );
