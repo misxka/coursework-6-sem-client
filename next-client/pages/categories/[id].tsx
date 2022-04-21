@@ -1,5 +1,9 @@
 import { NextPage } from 'next';
-import Head from 'next/head';
+import { useState } from 'react';
+
+import Layout from '../../components/Layout/Layout';
+import Navbar from '../../components/Navbar/Navbar';
+import { StartButton } from '../../components/StartButton/StartButton';
 import { Category, getCategoryById, getCategoryPaths } from '../../utils/category';
 
 interface Props {
@@ -33,18 +37,14 @@ const Category: NextPage<Props> = ({ categoryData }) => {
   const { name, cards } = categoryData;
 
   return (
-    <div>
-      <Head>
-        <title>{name}</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-
-      <main>
+    <Layout home={false} pageTitle={name} headerContent={<Navbar />}>
+      <div className='cards'>
         {cards?.map(card => (
           <div key={card.id}>{card.word}</div>
         ))}
-      </main>
-    </div>
+      </div>
+      {/* <StartButton gameStarted={this.props.gameStarted} playMode={this.props.playMode} startGame={this.startGame} currentAudio={this.state.sounds[this.currentNumber]} /> */}
+    </Layout>
   );
 };
 

@@ -1,0 +1,83 @@
+button {
+  color: #0099ff;
+  background-size: 170%;
+  background-position: 150% -50%;
+
+  &.start-game {
+    margin: 0 auto 12px;
+    display: block;
+    padding: 8px 30px 10px;
+    border-radius: 50px;
+    border: 3px solid #0099ff;
+    font-size: 1.6rem;
+    color: #0099ff;
+    background: transparent;
+    background-image: url(../../assets/img/wave.svg);
+    background-repeat: no-repeat;
+    background-size: 170%;
+    background-position: 150% -50%;
+    transition: background-position 0.8s ease-in, background-size 0.8s ease-in,
+      color 0.8s ease-in, box-shadow ease-out 0.2s, transform ease-out 0.2s;
+    cursor: pointer;
+    appearance: none;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    &:hover {
+      color: #fff;
+      transform: translateY(-2px);
+      background-position: 5% 95%;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      background-color: #0099ff;
+      transform: translateY(0px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &.repeat-button {
+    margin: 0 auto 12px;
+    display: block;
+    padding: 25px;
+    border-radius: 50%;
+    border: 3px solid #0099ff;
+    font-size: 0;
+    background: transparent;
+    background-image: url(../../assets/img/refresh.svg);
+    background-repeat: no-repeat;
+    background-position: 35% 45%;
+    background-size: 35px 35px;
+    transition-delay: 0.3s;
+    transition: 0.5s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &.hidden {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  button.start-game {
+    margin-top: auto;
+  }
+}
