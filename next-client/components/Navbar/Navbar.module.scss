@@ -10,3 +10,27 @@
   max-width: 30vw;
   margin-left: auto;
 }
+
+.links {
+  margin-left: auto;
+  width: 70%;
+  display: flex;
+  flex-direction: row-reverse;
+  padding-top: 10px;
+}
+
+.link {
+  color: #0070f3;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.currentLink {
+  text-decoration: underline;
+  pointer-events: none;
+}

@@ -18,7 +18,7 @@ export default function Studio() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) setContent(<ErrorDisplayer code='401' />);
-    if (didMount) {
+    if (didMount || user.role) {
       if (checkPermission(user.role)) setContent(<div>Content</div>);
       else setContent(<ErrorDisplayer code='403' />);
     }
