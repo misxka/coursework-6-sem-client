@@ -52,7 +52,9 @@ function Auth() {
       }
     };
 
-    fetchData();
+    if (!Object.keys(user).length) {
+      fetchData();
+    }
   }, []);
 
   useEffect(() => {
@@ -76,6 +78,7 @@ function Auth() {
             onClick={() => {
               localStorage.removeItem('token');
               setToken('');
+              dispatch(update({}));
             }}
             rightIcon={<Icon as={FaSignOutAlt} />}
             colorScheme='red'
