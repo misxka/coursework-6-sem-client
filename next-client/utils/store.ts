@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import modeReducer from '../utils/slices/modeSlice';
 import gameStartedReducer from '../utils/slices/gameStartedSlice';
 import guessedReducer from '../utils/slices/guessedSlice';
+import userReducer from '../utils/slices/userSlice';
 
 export const store = configureStore({
   reducer: {
     mode: modeReducer,
     gameStarted: gameStartedReducer,
-    guessed: guessedReducer
+    guessed: guessedReducer,
+    user: userReducer
   }
 });
 

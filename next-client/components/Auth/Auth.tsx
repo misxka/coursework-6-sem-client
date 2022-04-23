@@ -21,6 +21,12 @@ import { Field, FieldProps, Form, Formik } from 'formik';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import { FaSignOutAlt, FaUserPlus } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+
+import IUser from '../../interfaces/IUser';
+import { update } from '../../utils/slices/userSlice';
+import { RootState } from '../../utils/store';
+import { getUserInfo } from '../../utils/user-info';
 import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
 
@@ -31,6 +37,23 @@ function Auth() {
   const [token, setToken] = useState<string>('');
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const user = useSelector((state: RootState) => state.user.value);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        const user = await getUserInfo(token);
+
+        dispatch(update(user));
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     let isExpired = true;
@@ -48,7 +71,7 @@ function Auth() {
     if (!isExpired) {
       setAuthGroup(
         <>
-          <Avatar name='Mikhail Viaryha' className={styles.avatar} />
+          <Avatar name={user.fullname} className={styles.avatar} />
           <Button
             onClick={() => {
               localStorage.removeItem('token');
@@ -69,7 +92,7 @@ function Auth() {
         </Button>
       );
     }
-  }, [token]);
+  }, [user, token]);
 
   const [isSignupForm, setIsSignupForm] = useState<boolean>(false);
 
@@ -97,25 +120,52 @@ function Auth() {
     return error;
   };
 
+  const submitSignIn = async (values: any, actions: any) => {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/auth/sign-in`, {
+        login: values.login,
+        password: values.password
+      });
+
+      const { data } = response;
+
+      const token = `${data.tokenType} ${data.accessToken}`;
+      localStorage.setItem('token', token);
+      setToken(token);
+
+      const userData: IUser = {
+        id: data.id,
+        login: data.login,
+        email: data.email,
+        fullname: data.fullname,
+        role: data.role
+      };
+      dispatch(update(userData));
+
+      onClose();
+    } catch (e: any) {
+      console.error(`Ошибка ${e.response.status}: неверные данные`);
+    }
+  };
+
+  const submitSignUp = async (values: any, actions: any) => {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/auth/sign-up`, {
+        login: values.login,
+        password: values.password,
+        email: values.email,
+        role: 'STUDENT'
+      });
+
+      onClose();
+    } catch (e: any) {
+      console.error(`Ошибка ${e.response.status}: неверные данные`);
+    }
+  };
+
   const renderForm = () => {
     return isSignupForm ? (
-      <Formik
-        initialValues={{ login: '', password: '', email: '' }}
-        onSubmit={async (values, actions) => {
-          try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/auth/sign-up`, {
-              login: values.login,
-              password: values.password,
-              email: values.email,
-              role: 'STUDENT'
-            });
-
-            onClose();
-          } catch (e: any) {
-            console.error(`Ошибка ${e.response.status}: неверные данные`);
-          }
-        }}
-      >
+      <Formik initialValues={{ login: '', password: '', email: '' }} onSubmit={submitSignUp}>
         {props => (
           <Form>
             <Field name='login' validate={validateLogin}>
@@ -145,26 +195,7 @@ function Auth() {
         )}
       </Formik>
     ) : (
-      <Formik
-        initialValues={{ login: '', password: '' }}
-        onSubmit={async (values, actions) => {
-          try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/auth/sign-in`, {
-              login: values.login,
-              password: values.password
-            });
-
-            const { data } = response;
-            const token = `${data.tokenType} ${data.accessToken}`;
-            localStorage.setItem('token', token);
-            setToken(token);
-
-            onClose();
-          } catch (e: any) {
-            console.error(`Ошибка ${e.response.status}: неверные данные`);
-          }
-        }}
-      >
+      <Formik initialValues={{ login: '', password: '' }} onSubmit={submitSignIn}>
         {props => (
           <Form>
             <Field name='login' validate={validateLogin}>
