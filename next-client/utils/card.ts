@@ -41,4 +41,13 @@ const createCard = async (formData: any): Promise<CardCreateResponse> => {
   return data;
 };
 
-export { getAllCardsByCategory, createCard };
+const deleteCard = async (id: number): Promise<BaseResponse> => {
+  const { data: deleteResult } = await axios.delete<BaseResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/cards/${id}`, {
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`
+    }
+  });
+  return deleteResult;
+};
+
+export { getAllCardsByCategory, createCard, deleteCard };

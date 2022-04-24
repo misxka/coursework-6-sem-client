@@ -1,5 +1,7 @@
-import { Button, CloseButton, Input, Text } from '@chakra-ui/react';
+import { Button, CloseButton, Input, Spinner, Text, useToast } from '@chakra-ui/react';
 import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
+
+import { deleteCard } from '../../utils/card';
 
 import styles from './AdminCard.module.scss';
 
@@ -10,14 +12,18 @@ interface Props {
   soundFile: string;
   image: string;
   categoryId: number;
+  updateCardsOnDelete: (id: number) => void;
 }
 
 export default function AdminCard(props: Props) {
-  const { id, word, translation, image, soundFile, categoryId } = props;
+  const { id, word, translation, image, soundFile, categoryId, updateCardsOnDelete } = props;
+
+  const toast = useToast();
 
   const ref = useRef<HTMLAudioElement>(null);
 
   const [isFlipped, setIsFlipped] = useState<boolean>();
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   useEffect(() => {
     ref.current?.load();
@@ -28,26 +34,29 @@ export default function AdminCard(props: Props) {
     setIsFlipped(value);
   };
 
-  const deleteCard = async () => {
-    // const response = await fetch(`${serverUrl}api/admin/card`, {
-    //   method: 'DELETE',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': `${serverUrl}`,
-    //     Authorization: `Bearer ${localStorage.getItem('token')}`
-    //   },
-    //   body: JSON.stringify({
-    //     category: this.props.categoryName,
-    //     id: this.props.id
-    //   })
-    // });
-    // const result = await response.json();
-    // if (!result.isFailed) {
-    //   await this.props.updateCategories();
-    //   await this.props.updateCards();
-    //   await this.props.updateAdminCategories();
-    //   await this.props.updateAdminCards('admin');
-    // }
+  const handleDelete = async () => {
+    setIsFetching(true);
+    const deleteResult = await deleteCard(id);
+    setIsFetching(false);
+
+    if (deleteResult.status === 200) {
+      updateCardsOnDelete(id);
+      toast({
+        title: deleteResult.message,
+        status: 'success',
+        duration: 5000,
+        position: 'bottom-right',
+        isClosable: true
+      });
+    } else {
+      toast({
+        title: deleteResult.message,
+        status: 'error',
+        duration: 5000,
+        position: 'bottom-right',
+        isClosable: true
+      });
+    }
   };
 
   const sendForm = async (e: BaseSyntheticEvent) => {
@@ -78,10 +87,15 @@ export default function AdminCard(props: Props) {
 
   return (
     <div className={styles.adminCardContainer}>
+      {isFetching ? (
+        <div className={styles.loadingStub}>
+          <Spinner w={170} h={170} color='blue.400' speed='0.8s' thickness='6px' />
+        </div>
+      ) : null}
       <div className={`${styles.card} ${isFlipped ? styles.flipped : ''}`}>
         <div className={`${styles.card__front} ${isFlipped ? styles.card__rotate : ''} ${isFlipped ? styles.card__hidden : ''}`}>
           <div className={styles.card__header}>
-            <CloseButton size='md' type='reset' onClick={deleteCard}></CloseButton>
+            <CloseButton size='md' type='reset' onClick={handleDelete}></CloseButton>
           </div>
           <div className={styles.infoFields}>
             <div className={styles.field}>
