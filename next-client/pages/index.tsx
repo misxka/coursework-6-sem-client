@@ -37,7 +37,7 @@ const Home: NextPage<Props> = ({ categories }) => {
     >
       <div className={styles.linkCards}>
         {categories.map(({ id, name, cards }) => (
-          <CategoryCard key={id} id={id} name={name} image={cards ? cards[0].image : (process.env.NEXT_PUBLIC_DEFAULT_IMAGE as string)} />
+          <CategoryCard key={id} id={id} name={name} image={cards && cards[0] ? cards[0].image : (process.env.NEXT_PUBLIC_DEFAULT_IMAGE as string)} />
         ))}
       </div>
     </Layout>

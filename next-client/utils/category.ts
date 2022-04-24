@@ -3,7 +3,6 @@ import axios, { AxiosResponse } from 'axios';
 export type Category = {
   id: number;
   name: string;
-  link: string;
   cards?: Card[];
 };
 
@@ -28,6 +27,10 @@ export type CategoryDeleteResponse = {
   status: number;
   message: string;
 };
+
+export type CategoryCreateResponse = {
+  category: Category;
+} & CategoryDeleteResponse;
 
 const getAllCategories = async (): Promise<Category[]> => {
   const { data: categories } = await axios.get<Category[]>(`${process.env.NEXT_PUBLIC_HOST}/api/categories`);
@@ -55,7 +58,7 @@ const updateCategory = async (id: number, name: string): Promise<CategoryUpdateR
   const { data } = await axios.patch<CategoryUpdateRequest, AxiosResponse<CategoryUpdateResponse>>(
     `${process.env.NEXT_PUBLIC_HOST}/api/categories/${id}`,
     {
-      name: name
+      name
     },
     {
       headers: {
@@ -75,4 +78,19 @@ const deleteCategory = async (id: number): Promise<CategoryDeleteResponse> => {
   return deleteResult;
 };
 
-export { getAllCategories, getCategoryPaths, getCategoryById, updateCategory, deleteCategory };
+const createCategory = async (name: string): Promise<CategoryCreateResponse> => {
+  const { data } = await axios.post<CategoryCreateResponse>(
+    `${process.env.NEXT_PUBLIC_HOST}/api/categories/`,
+    {
+      name
+    },
+    {
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`
+      }
+    }
+  );
+  return data;
+};
+
+export { getAllCategories, getCategoryPaths, getCategoryById, updateCategory, deleteCategory, createCategory };
