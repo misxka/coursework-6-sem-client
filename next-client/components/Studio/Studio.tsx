@@ -23,6 +23,16 @@ export default function Studio() {
     setCategories(categories);
   };
 
+  const updateCategories = (id: number, name: string) => {
+    const updatedCategories = categories.map(category => (id === category.id ? { ...category, name } : category));
+    setCategories(updatedCategories);
+  };
+
+  const deleteCategory = (id: number) => {
+    const updatedCategories = categories.filter(category => category.id !== id);
+    setCategories(updatedCategories);
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) setContent(<ErrorDisplayer code='401' />);
@@ -41,7 +51,7 @@ export default function Studio() {
   useEffect(() => {
     const cards = categories?.map(category => {
       const { name, id, cards } = category;
-      return <AdminCategoryCard key={id} wordsAmount={cards ? cards.length : 0} name={name} id={id} />;
+      return <AdminCategoryCard key={id} wordsAmount={cards ? cards.length : 0} name={name} id={id} updateCategories={updateCategories} updateCategoriesOnDelete={deleteCategory} />;
     });
     setContent(<div className={styles.content}>{cards}</div>);
   }, [categories]);
