@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { theme } from '../utils/theme-chakra';
 import { store } from '../utils/store';
 
+import 'bootstrap/dist/css/bootstrap.css';
 import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {

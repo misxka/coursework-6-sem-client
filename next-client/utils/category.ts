@@ -1,17 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
 
+import { Card } from './card';
+
 export type Category = {
   id: number;
   name: string;
   cards?: Card[];
-};
-
-export type Card = {
-  id: number;
-  word: string;
-  translation: string;
-  image: string;
-  audio: string;
 };
 
 export type CategoryUpdateRequest = {
