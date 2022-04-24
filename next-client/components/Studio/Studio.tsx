@@ -14,7 +14,7 @@ export default function Studio() {
   const user = useSelector((state: RootState) => state.user.value);
 
   const [didMount, setDidMount] = useState<boolean>(false);
-  const [content, setContent] = useState<JSX.Element | JSX.Element[]>();
+  const [content, setContent] = useState<JSX.Element>(<></>);
   const [categories, setCategories] = useState<Category[]>([]);
 
   const checkPermission = (role: string | undefined) => role === 'TEACHER';

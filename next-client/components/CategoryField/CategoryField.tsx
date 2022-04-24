@@ -8,7 +8,7 @@ import { RootState } from '../../utils/store';
 import { toggle as toggleGameStarted } from '../../utils/slices/gameStartedSlice';
 import { update as updateGuessed } from '../../utils/slices/guessedSlice';
 import { StartButton } from '../StartButton/StartButton';
-import { Card as CardType } from '../../utils/category';
+import { Card as CardType } from '../../utils/card';
 import Card from '../Card/Card';
 
 import styles from './CategoryField.module.scss';
