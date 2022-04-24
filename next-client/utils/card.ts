@@ -8,6 +8,19 @@ export type Card = {
   audio: string;
 };
 
+export type BaseResponse = {
+  status: number;
+  message: string;
+};
+
+export type CardCreateRequest = {
+  data: any;
+};
+
+export type CardCreateResponse = {
+  card: Card;
+} & BaseResponse;
+
 const getAllCardsByCategory = async (categoryId: number): Promise<Card[]> => {
   const { data: cards } = await axios.get<Card[]>(`${process.env.NEXT_PUBLIC_HOST}/api/cards/${categoryId}`, {
     headers: {
@@ -17,4 +30,15 @@ const getAllCardsByCategory = async (categoryId: number): Promise<Card[]> => {
   return cards;
 };
 
-export { getAllCardsByCategory };
+const createCard = async (formData: any): Promise<CardCreateResponse> => {
+  const { data } = await axios({
+    method: 'post',
+    url: `${process.env.NEXT_PUBLIC_HOST}/api/cards/`,
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data', Authorization: `${localStorage.getItem('token')}` }
+  });
+
+  return data;
+};
+
+export { getAllCardsByCategory, createCard };

@@ -40,6 +40,11 @@ const AdminCategoryPage: NextPage = () => {
     setCards(cards);
   };
 
+  const addCard = (card: Card) => {
+    cards.push(card);
+    setCards([...cards]);
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) setContent(<ErrorDisplayer code='401' />);
@@ -75,7 +80,7 @@ const AdminCategoryPage: NextPage = () => {
   useEffect(() => {
     setContent(
       <>
-        {<AdminCardsContainer cards={cards} />}
+        {<AdminCardsContainer refreshCards={addCard} cards={cards} categoryId={Number(id)} />}
         {/* {didMount ? <NewCard refreshCategories={addCategory} /> : null} */}
       </>
     );

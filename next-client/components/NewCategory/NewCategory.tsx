@@ -1,6 +1,7 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Button, Input, Text, useToast } from '@chakra-ui/react';
 import React, { BaseSyntheticEvent, useState } from 'react';
+
 import { Category, createCategory } from '../../utils/category';
 
 import styles from './NewCategory.module.scss';

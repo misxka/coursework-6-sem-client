@@ -9,10 +9,11 @@ interface Props {
   translation: string;
   soundFile: string;
   image: string;
+  categoryId: number;
 }
 
 export default function AdminCard(props: Props) {
-  const { id, word, translation, image, soundFile } = props;
+  const { id, word, translation, image, soundFile, categoryId } = props;
 
   const ref = useRef<HTMLAudioElement>(null);
 
@@ -85,26 +86,26 @@ export default function AdminCard(props: Props) {
           <div className={styles.infoFields}>
             <div className={styles.field}>
               <Text fontSize='l' fontWeight={500}>
-                Word:&nbsp;
+                Слово:&nbsp;
               </Text>
               <Text fontSize='l' fontWeight={400}>{`${word}`}</Text>
             </div>
             <div className={styles.field}>
               <Text fontSize='l' fontWeight={500}>
-                Translation:&nbsp;
+                Перевод:&nbsp;
               </Text>
               <Text fontSize='l' fontWeight={400}>{`${translation}`}</Text>
             </div>
             <div className={`${styles.field} ${styles.soundFileField}`}>
               <Text fontSize='l' fontWeight={500}>
-                Sound file:&nbsp;
+                Звуковой файл:&nbsp;
               </Text>
               <audio controls ref={ref}>
                 <source src={`https://res.cloudinary.com/misxka/video/upload/${soundFile}.mp3`} type='audio/mpeg' />
               </audio>
             </div>
             <Text fontSize='l' fontWeight={500}>
-              Image:&nbsp;
+              Картинка:&nbsp;
             </Text>
             <div className={styles.imageContainer}>
               <img width='200' height='140' src={`https://res.cloudinary.com/misxka/image/upload/${image}.jpg`} />
@@ -112,14 +113,14 @@ export default function AdminCard(props: Props) {
           </div>
           <div className={styles.buttons}>
             <Button colorScheme='green' variant='outline' onClick={e => flipCard(e, true)}>
-              Change
+              Изменить
             </Button>
           </div>
         </div>
         <div className={`${styles.card__back} ${styles.card__rotate} ${!isFlipped ? styles.card__hidden : ''}`}>
           <form onSubmit={e => sendForm(e)}>
-            <Input type='text' placeholder='Word' name='word' defaultValue={`${word}`} />
-            <Input type='text' placeholder='Translation' name='translation' defaultValue={`${translation}`} />
+            <Input type='text' placeholder='Слово' name='word' defaultValue={`${word}`} />
+            <Input type='text' placeholder='Перевод' name='translation' defaultValue={`${translation}`} />
             <div className='file'>
               <input className='form-control form-control-sm' type='file' name='image' accept='image/*' />
             </div>
@@ -128,10 +129,10 @@ export default function AdminCard(props: Props) {
             </div>
             <div className={styles.buttons}>
               <Button colorScheme='red' variant='outline' onClick={e => flipCard(e, false)}>
-                Cancel
+                Отменить
               </Button>
               <Button marginLeft={4} colorScheme='green' variant='outline' type='submit'>
-                Create
+                Создать
               </Button>
             </div>
           </form>
