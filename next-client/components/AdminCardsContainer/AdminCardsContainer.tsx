@@ -10,16 +10,18 @@ interface Props {
   refreshCards: (card: Card) => void;
   updateCardsOnDelete: (id: number) => void;
   categoryId: number;
+  updateCards: (id: number, card: Card) => void;
 }
 
 export default function AdminCardsContainer(props: Props) {
-  const { cards, refreshCards, categoryId, updateCardsOnDelete } = props;
+  const { cards, refreshCards, categoryId, updateCardsOnDelete, updateCards } = props;
 
   return (
     <div className={styles.adminCards}>
       <div className={styles.content}>
         {cards.map((elem, index) => (
           <AdminCard
+            updateCards={updateCards}
             updateCardsOnDelete={updateCardsOnDelete}
             categoryId={categoryId}
             id={elem.id}

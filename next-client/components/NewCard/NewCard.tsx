@@ -32,6 +32,7 @@ export default function NewCard(props: Props) {
     e.preventDefault();
 
     setIsUploading(true);
+
     const formData = new FormData();
     formData.append('word', word);
     formData.append('translation', translation);

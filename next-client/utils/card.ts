@@ -22,7 +22,7 @@ export type CardCreateResponse = {
 } & BaseResponse;
 
 const getAllCardsByCategory = async (categoryId: number): Promise<Card[]> => {
-  const { data: cards } = await axios.get<Card[]>(`${process.env.NEXT_PUBLIC_HOST}/api/cards/${categoryId}`, {
+  const { data: cards } = await axios.get<Card[]>(`${process.env.NEXT_PUBLIC_HOST}/api/cards/category/${categoryId}`, {
     headers: {
       Authorization: `${localStorage.getItem('token')}`
     }
@@ -30,9 +30,18 @@ const getAllCardsByCategory = async (categoryId: number): Promise<Card[]> => {
   return cards;
 };
 
+const getCardById = async (cardId: number): Promise<Card> => {
+  const { data: card } = await axios.get<Card>(`${process.env.NEXT_PUBLIC_HOST}/api/cards/${cardId}`, {
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`
+    }
+  });
+  return card;
+};
+
 const createCard = async (formData: any): Promise<CardCreateResponse> => {
   const { data } = await axios({
-    method: 'post',
+    method: 'POST',
     url: `${process.env.NEXT_PUBLIC_HOST}/api/cards/`,
     data: formData,
     headers: { 'Content-Type': 'multipart/form-data', Authorization: `${localStorage.getItem('token')}` }
@@ -50,4 +59,15 @@ const deleteCard = async (id: number): Promise<BaseResponse> => {
   return deleteResult;
 };
 
-export { getAllCardsByCategory, createCard, deleteCard };
+const updateCard = async (formData: any): Promise<CardCreateResponse> => {
+  const { data } = await axios({
+    method: 'PUT',
+    url: `${process.env.NEXT_PUBLIC_HOST}/api/cards/`,
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data', Authorization: `${localStorage.getItem('token')}` }
+  });
+
+  return data;
+};
+
+export { getAllCardsByCategory, createCard, deleteCard, updateCard, getCardById };

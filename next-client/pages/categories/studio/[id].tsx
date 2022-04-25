@@ -50,6 +50,11 @@ const AdminCategoryPage: NextPage = () => {
     setCards(updatedCards);
   };
 
+  const updateCards = (id: number, updatedCard: Card) => {
+    const updatedCards = cards.map(card => (id === card.id ? { ...card, ...updatedCard } : card));
+    setCards(updatedCards);
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) setContent(<ErrorDisplayer code='401' />);
@@ -83,7 +88,7 @@ const AdminCategoryPage: NextPage = () => {
   }, [router]);
 
   useEffect(() => {
-    setContent(<>{<AdminCardsContainer updateCardsOnDelete={deleteCard} refreshCards={addCard} cards={cards} categoryId={Number(id)} />}</>);
+    setContent(<>{<AdminCardsContainer updateCardsOnDelete={deleteCard} updateCards={updateCards} refreshCards={addCard} cards={cards} categoryId={Number(id)} />}</>);
   }, [cards]);
 
   useEffect(() => {
