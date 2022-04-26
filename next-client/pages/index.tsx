@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 
 import { CategoryCard } from '../components/CategoryCard/CategoryCard';
-import { Category, getAllCategories } from '../utils/category';
+import { Category, getAllCategories } from '../utils/api-calls/category';
 import Navbar from '../components/Navbar/Navbar';
 
 import styles from '../styles/Home.module.scss';

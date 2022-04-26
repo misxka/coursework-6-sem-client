@@ -1,4 +1,4 @@
-import { Card } from '../../utils/card';
+import { Card } from '../../utils/api-calls/card';
 
 import AdminCard from '../AdminCard/AdminCard';
 import NewCard from '../NewCard/NewCard';

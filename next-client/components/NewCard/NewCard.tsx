@@ -2,7 +2,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import { Button, Input, Spinner, Text, useToast } from '@chakra-ui/react';
 import React, { BaseSyntheticEvent, useState } from 'react';
 
-import { Card, createCard } from '../../utils/card';
+import { Card, createCard } from '../../utils/api-calls/card';
 
 import styles from './NewCard.module.scss';
 

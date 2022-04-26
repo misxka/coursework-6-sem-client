@@ -24,10 +24,21 @@ function Navbar() {
     </div>
   );
 
+  const adminLinks = (
+    <div className={styles.links}>
+      <Link href='/admin-dashboard'>
+        <a className={`${styles.link} ${router.pathname == '/admin-dashboard' ? styles.currentLink : ''}`}>Кабинет администратора</a>
+      </Link>
+    </div>
+  );
+
   useEffect(() => {
     if (didMount || user.role) {
       if (user.role === 'TEACHER') {
         setLinks(teacherLinks);
+        return;
+      } else if (user.role === 'ADMIN') {
+        setLinks(adminLinks);
         return;
       }
       setLinks(<></>);

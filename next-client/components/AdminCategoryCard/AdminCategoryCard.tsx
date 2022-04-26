@@ -2,7 +2,7 @@ import { Button, CloseButton, Input, Text, useToast } from '@chakra-ui/react';
 import Link from 'next/link';
 import React, { BaseSyntheticEvent, useState } from 'react';
 
-import { deleteCategory, updateCategory } from '../../utils/category';
+import { deleteCategory, updateCategory } from '../../utils/api-calls/category';
 
 import styles from './AdminCategoryCard.module.scss';
 

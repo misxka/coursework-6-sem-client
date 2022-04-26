@@ -4,8 +4,8 @@ import GameModeButton from '../../components/GameModeButton/GameModeButton';
 
 import Layout from '../../components/Layout/Layout';
 import Navbar from '../../components/Navbar/Navbar';
-import { Card } from '../../utils/card';
-import { Category, getCategoryById, getCategoryPaths } from '../../utils/category';
+import { Card } from '../../utils/api-calls/card';
+import { Category, getCategoryById, getCategoryPaths } from '../../utils/api-calls/category';
 
 interface Props {
   categoryData: Category;

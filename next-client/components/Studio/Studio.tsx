@@ -1,7 +1,7 @@
-import { Skeleton, Spinner } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Category, getAllCategories } from '../../utils/category';
+import { Category, getAllCategories } from '../../utils/api-calls/category';
 
 import { RootState } from '../../utils/store';
 import AdminCategoryCard from '../AdminCategoryCard/AdminCategoryCard';

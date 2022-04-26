@@ -1,7 +1,7 @@
 import { Button, CloseButton, Input, Spinner, Text, useToast } from '@chakra-ui/react';
 import React, { BaseSyntheticEvent, useEffect, useRef, useState } from 'react';
 
-import { Card, deleteCard, updateCard } from '../../utils/card';
+import { Card, deleteCard, updateCard } from '../../utils/api-calls/card';
 
 import styles from './AdminCard.module.scss';
 

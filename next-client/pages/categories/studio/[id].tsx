@@ -9,8 +9,8 @@ import AdminCardsContainer from '../../../components/AdminCardsContainer/AdminCa
 import ErrorDisplayer from '../../../components/Error/Error';
 import Layout from '../../../components/Layout/Layout';
 import Navbar from '../../../components/Navbar/Navbar';
-import { Card, getAllCardsByCategory } from '../../../utils/card';
-import { getCategoryById } from '../../../utils/category';
+import { Card, getAllCardsByCategory } from '../../../utils/api-calls/card';
+import { getCategoryById } from '../../../utils/api-calls/category';
 import { RootState } from '../../../utils/store';
 
 const ContentContainer = styled.div`
