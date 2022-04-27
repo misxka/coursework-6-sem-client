@@ -17,8 +17,6 @@ export default function AddUserSection(props: Props) {
 
   const addUser = async (values: any, actions: any) => {
     try {
-      console.log(values.password);
-
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_HOST}/api/users/`,
         {

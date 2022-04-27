@@ -1,22 +1,24 @@
-import { IconButton, Menu, MenuButton, MenuItem, MenuList, useToast } from '@chakra-ui/react';
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, useDisclosure, useToast } from '@chakra-ui/react';
 import { FaEllipsisV, FaTrashAlt, FaUserLock } from 'react-icons/fa';
 import { deleteUser } from '../../utils/api-calls/user';
+import EditPassword from '../EditPassword/EditPassword';
 
 interface Props {
   id?: number;
-  updateUsersOnDelete: (id?: number) => Promise<void>;
+  updateUsers: () => Promise<void>;
 }
 
 export default function UserRowActions(props: Props) {
-  const { id, updateUsersOnDelete } = props;
+  const { id, updateUsers } = props;
 
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleDelete = async () => {
     const deleteResult = await deleteUser(id);
 
     if (deleteResult.status === 200) {
-      await updateUsersOnDelete(id);
+      await updateUsers();
       toast({
         title: deleteResult.message,
         status: 'success',
@@ -35,15 +37,32 @@ export default function UserRowActions(props: Props) {
     }
   };
 
+  const handleEdit = () => {};
+
   return (
-    <Menu>
-      <MenuButton h='30px' minW='30px' borderRadius='50%' fontSize={11} as={IconButton} aria-label='Options' icon={<FaEllipsisV />} variant='ghost' />
-      <MenuList>
-        <MenuItem icon={<FaUserLock />}>Изменить пароль</MenuItem>
-        <MenuItem onClick={handleDelete} icon={<FaTrashAlt />}>
-          Удалить пользователя
-        </MenuItem>
-      </MenuList>
-    </Menu>
+    <>
+      <Menu>
+        <MenuButton h='30px' minW='30px' borderRadius='50%' fontSize={11} as={IconButton} aria-label='Options' icon={<FaEllipsisV />} variant='ghost' />
+        <MenuList>
+          <MenuItem onClick={onOpen} icon={<FaUserLock />}>
+            Изменить пароль
+          </MenuItem>
+          <MenuItem onClick={handleDelete} icon={<FaTrashAlt />}>
+            Удалить пользователя
+          </MenuItem>
+        </MenuList>
+      </Menu>
+
+      <Modal size='sm' isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader></ModalHeader>
+          <ModalCloseButton />
+          <ModalBody padding='30px'>
+            <EditPassword onClose={onClose} id={id} updateUsers={updateUsers} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

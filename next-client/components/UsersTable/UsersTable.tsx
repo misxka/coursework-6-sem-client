@@ -104,7 +104,7 @@ export default function UsersTable() {
     );
   };
 
-  const updateUsersOnDelete = async (id?: number) => {
+  const updateUsers = async () => {
     setIsUploading(true);
 
     const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size);
@@ -209,7 +209,7 @@ export default function UsersTable() {
                       </Select>
                     </Td>
                     <Td paddingTop='2px' paddingBottom='2px'>
-                      <UserRowActions id={user.id} updateUsersOnDelete={updateUsersOnDelete}></UserRowActions>
+                      <UserRowActions id={user.id} updateUsers={updateUsers}></UserRowActions>
                     </Td>
                   </Tr>
                 ))}
