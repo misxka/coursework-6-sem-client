@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 
+import AdminDashboard from '../components/AdminDashboard/AdminDashboard';
 import Layout from '../components/Layout/Layout';
 import Navbar from '../components/Navbar/Navbar';
-import UsersTable from '../components/UsersTable/UsersTable';
 
 const StudioPage: NextPage = () => {
   return (
@@ -15,7 +15,7 @@ const StudioPage: NextPage = () => {
         </>
       }
     >
-      <UsersTable />
+      <AdminDashboard />
     </Layout>
   );
 };

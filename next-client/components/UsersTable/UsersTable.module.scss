@@ -1,17 +1,18 @@
 .content {
-  min-height: inherit;
-  padding: 30px;
+  min-height: 70vh;
+  padding: 16px 30px;
   display: flex;
   flex-direction: column;
+  height: inherit;
 }
 
 .table {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .pagingButtons {
   margin: auto auto 0;
-  padding-top: 20px;
+  padding-top: 30px;
   display: flex;
   align-items: center;
 }

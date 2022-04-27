@@ -48,7 +48,7 @@ export default function UsersTable() {
   const { isOpen: isOpenDrawer, onOpen: onOpenDrawer, onClose: onCloseDrawer } = useDisclosure();
 
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(8);
   const [users, setUsers] = useState<IUser[]>([]);
   const [lastPage, setLastPage] = useState<number>(1);
 
@@ -196,8 +196,8 @@ export default function UsersTable() {
         <Button colorScheme='green' onClick={onOpen}>
           Добавить пользователя
         </Button>
-        <Select onChange={e => setSize(+e.target.value)} marginLeft='auto' w={100} defaultValue={10} size='md'>
-          <option value='10'>10</option>
+        <Select onChange={e => setSize(+e.target.value)} marginLeft='auto' w={100} defaultValue={8} size='md'>
+          <option value='8'>8</option>
           <option value='20'>20</option>
           <option value='50'>50</option>
         </Select>

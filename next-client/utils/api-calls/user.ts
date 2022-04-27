@@ -105,4 +105,14 @@ const patchUser = async (id: number | undefined, field: string, value: string) =
   return updateResult;
 };
 
-export { getUsersByPageAndSize, deleteUser, patchUser, getUsersFiltered };
+const getStats = async (role: string) => {
+  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/users/stats`, {
+    headers: { Authorization: `${localStorage.getItem('token')}` },
+    params: {
+      role
+    }
+  });
+  return data;
+};
+
+export { getUsersByPageAndSize, deleteUser, patchUser, getUsersFiltered, getStats };

@@ -1,0 +1,16 @@
+.content {
+  min-height: inherit;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 1240px;
+}
+
+.pieChart {
+  width: 36%;
+}
+
+.chartTitle {
+  margin: 0 auto 26px;
+  text-align: center;
+}
