@@ -1,3 +1,4 @@
+import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
   Button,
   ButtonGroup,
@@ -51,11 +52,14 @@ export default function UsersTable() {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
+  const [sortField, setSortField] = useState<string>('id');
+  const [sortDirection, setSortDirection] = useState<boolean>(true);
+
   useEffect(() => {
     const fetchUsers = async () => {
       setIsFetching(true);
 
-      const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size);
+      const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size, sortField, sortDirection);
 
       setUsers(content);
       setLastPage(totalPages);
@@ -64,7 +68,7 @@ export default function UsersTable() {
     };
 
     fetchUsers();
-  }, [page, size, user]);
+  }, [page, size, user, sortDirection, sortField]);
 
   const handlePreviousClick = () => {
     if (page > 1) setPage(page - 1);
@@ -81,22 +85,22 @@ export default function UsersTable() {
         {filler.map((elem, index) => (
           <Tr key={index}>
             <Td>
-              <Skeleton w={10} height='22px' />
+              <Skeleton w={10} height='32px' />
             </Td>
             <Td>
-              <Skeleton w={200} height='22px' />
+              <Skeleton w={200} height='32px' />
             </Td>
             <Td>
-              <Skeleton w={280} height='22px' />
+              <Skeleton w={280} height='32px' />
             </Td>
             <Td>
-              <Skeleton w={250} height='22px' />
+              <Skeleton w={250} height='32px' />
             </Td>
             <Td>
-              <Skeleton w={150} height='22px' />
+              <Skeleton w={150} height='32px' />
             </Td>
             <Td>
-              <Skeleton w={10} height='22px' />
+              <Skeleton w={10} height='32px' />
             </Td>
           </Tr>
         ))}
@@ -107,7 +111,7 @@ export default function UsersTable() {
   const updateUsers = async () => {
     setIsUploading(true);
 
-    const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size);
+    const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size, sortField, sortDirection);
 
     setUsers(content);
     setLastPage(totalPages);
@@ -121,7 +125,7 @@ export default function UsersTable() {
     const updateResult = await patchUser(id, field, value);
 
     if (updateResult.status === 200) {
-      const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size);
+      const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size, sortField, sortDirection);
 
       setUsers(content);
       setLastPage(totalPages);
@@ -148,6 +152,20 @@ export default function UsersTable() {
     }
   };
 
+  const sortUsers = (field: string) => {
+    if (sortField !== field) {
+      setSortField(field);
+      setSortDirection(true);
+    } else {
+      setSortDirection(!sortDirection);
+    }
+  };
+
+  const renderSortIcon = (field: string) => {
+    if (field === sortField) return sortDirection ? <TriangleUpIcon marginLeft={2} marginBottom='4px' /> : <TriangleDownIcon marginLeft={2} marginBottom='4px' />;
+    else return null;
+  };
+
   return (
     <div className={styles.content}>
       <HStack display='flex' justifyContent='space-between'>
@@ -164,11 +182,26 @@ export default function UsersTable() {
         <Table variant='simple' size='sm'>
           <Thead>
             <Tr>
-              <Th textAlign='center'>ID</Th>
-              <Th textAlign='center'>Логин</Th>
-              <Th textAlign='center'>Эл. почта</Th>
-              <Th textAlign='center'>ФИО</Th>
-              <Th textAlign='center'>Роль</Th>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('id')}>
+                ID
+                {renderSortIcon('id')}
+              </Th>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('login')}>
+                Логин
+                {renderSortIcon('login')}
+              </Th>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('email')}>
+                Эл. почта
+                {renderSortIcon('email')}
+              </Th>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('fullname')}>
+                ФИО
+                {renderSortIcon('fullname')}
+              </Th>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('role')}>
+                Роль
+                {renderSortIcon('role')}
+              </Th>
               <Th textAlign='center'></Th>
             </Tr>
           </Thead>

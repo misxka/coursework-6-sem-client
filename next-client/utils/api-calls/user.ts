@@ -33,12 +33,14 @@ export type UpdateResponse = {
   user: IUser;
 } & DeleteResponse;
 
-const getUsersByPageAndSize = async (page: number, size: number) => {
+const getUsersByPageAndSize = async (page: number, size: number, field: string, direction: boolean) => {
   const { data } = await axios.get<IUsersPagingResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/users`, {
     headers: { Authorization: `${localStorage.getItem('token')}` },
     params: {
       page,
-      size
+      size,
+      field,
+      direction
     }
   });
   return data;

@@ -37,8 +37,6 @@ export default function UserRowActions(props: Props) {
     }
   };
 
-  const handleEdit = () => {};
-
   return (
     <>
       <Menu>
