@@ -20,14 +20,14 @@ import axios from 'axios';
 import { Field, FieldProps, Form, Formik } from 'formik';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { useEffect, useState } from 'react';
-import { FaSignOutAlt, FaUserPlus } from 'react-icons/fa';
+import { FaIdCard, FaRegEnvelopeOpen, FaSignOutAlt, FaUserPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 
 import IUser from '../../interfaces/IUser';
 import { update } from '../../utils/slices/userSlice';
 import { RootState } from '../../utils/store';
 import { getUserInfo } from '../../utils/user-info';
-import EmailInput from '../EmailInput/EmailInput';
+import CustomInput from '../CustomInput/CustomInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
 
 import styles from './Auth.module.scss';
@@ -184,7 +184,7 @@ function Auth() {
               {({ field, form }: FieldProps) => <PasswordInput field={field} form={form} className={styles.field} />}
             </Field>
             <Field name='email' validate={validateEmail}>
-              {({ field, form }: FieldProps) => <EmailInput field={field} form={form} className={styles.field} />}
+              {({ field, form }: FieldProps) => <CustomInput field={field} form={form} className={styles.field} icon={FaRegEnvelopeOpen} name='email' placeholder='Email' />}
             </Field>
             <Stack direction='row' spacing={8} align='baseline'>
               <Button mt={4} colorScheme='green' isLoading={props.isSubmitting} type='submit'>

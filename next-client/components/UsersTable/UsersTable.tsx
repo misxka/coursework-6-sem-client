@@ -1,17 +1,50 @@
-import { Button, ButtonGroup, Editable, EditableInput, EditablePreview, Icon, IconButton, Select, Skeleton, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+  Button,
+  ButtonGroup,
+  Editable,
+  EditableInput,
+  EditablePreview,
+  HStack,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  Skeleton,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  useDisclosure
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight, FaEllipsisH } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 import IUser from '../../interfaces/IUser';
 import { getUsersByPageAndSize } from '../../utils/api-calls/user';
+import { RootState } from '../../utils/store';
+import AddUserSection from '../AddUserSection/AddUserSection';
+import UserRowActions from '../UserRowActions/UserRowActions';
 
 import styles from './UsersTable.module.scss';
 
 export default function UsersTable() {
+  const user = useSelector((state: RootState) => state.user.value);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [users, setUsers] = useState<IUser[]>([]);
   const [lastPage, setLastPage] = useState<number>(1);
+
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,7 +60,7 @@ export default function UsersTable() {
     };
 
     fetchUsers();
-  }, [page, size]);
+  }, [page, size, user]);
 
   const handlePreviousClick = () => {
     if (page > 1) setPage(page - 1);
@@ -50,13 +83,16 @@ export default function UsersTable() {
               <Skeleton w={200} height='22px' />
             </Td>
             <Td>
-              <Skeleton w={300} height='22px' />
+              <Skeleton w={280} height='22px' />
             </Td>
             <Td>
-              <Skeleton w={260} height='22px' />
+              <Skeleton w={250} height='22px' />
             </Td>
             <Td>
-              <Skeleton w={160} height='22px' />
+              <Skeleton w={140} height='22px' />
+            </Td>
+            <Td>
+              <Skeleton w={10} height='22px' />
             </Td>
           </Tr>
         ))}
@@ -66,20 +102,26 @@ export default function UsersTable() {
 
   return (
     <div className={styles.content}>
-      <Select onChange={e => setSize(+e.target.value)} marginLeft='auto' w={100} defaultValue={10} size='sm'>
-        <option value='10'>10</option>
-        <option value='20'>20</option>
-        <option value='50'>50</option>
-      </Select>
+      <HStack display='flex' justifyContent='space-between'>
+        <Button colorScheme='green' onClick={onOpen}>
+          Добавить пользователя
+        </Button>
+        <Select onChange={e => setSize(+e.target.value)} marginLeft='auto' w={100} defaultValue={10} size='md'>
+          <option value='10'>10</option>
+          <option value='20'>20</option>
+          <option value='50'>50</option>
+        </Select>
+      </HStack>
       <TableContainer className={styles.table}>
         <Table variant='simple' size='sm'>
           <Thead>
             <Tr>
-              <Th textAlign='center'>№</Th>
+              <Th textAlign='center'>ID</Th>
               <Th textAlign='center'>Логин</Th>
               <Th textAlign='center'>Эл. почта</Th>
               <Th textAlign='center'>ФИО</Th>
               <Th textAlign='center'>Роль</Th>
+              <Th textAlign='center'></Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -87,12 +129,7 @@ export default function UsersTable() {
               ? composeTableSkeleton()
               : users.map(user => (
                   <Tr key={user.id}>
-                    <Td>
-                      <Editable textAlign='center' w='40px' defaultValue={user.id?.toString()}>
-                        <EditablePreview />
-                        <EditableInput />
-                      </Editable>
-                    </Td>
+                    <Td>{user.id?.toString()}</Td>
                     <Td>
                       <Editable textAlign='center' w='200px' defaultValue={user.login}>
                         <EditablePreview />
@@ -112,10 +149,13 @@ export default function UsersTable() {
                       </Editable>
                     </Td>
                     <Td>
-                      <Editable textAlign='center' w='160px' defaultValue={user.role}>
+                      <Editable textAlign='center' w='140px' defaultValue={user.role}>
                         <EditablePreview />
                         <EditableInput />
                       </Editable>
+                    </Td>
+                    <Td paddingTop='2px' paddingBottom='2px'>
+                      <UserRowActions id={user.id}></UserRowActions>
                     </Td>
                   </Tr>
                 ))}
@@ -143,6 +183,17 @@ export default function UsersTable() {
         ) : null}
         <IconButton onClick={handleNextClick} colorScheme='blue' icon={<FaAngleRight />} aria-label={''} />
       </ButtonGroup>
+
+      <Modal size='lg' isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader></ModalHeader>
+          <ModalCloseButton />
+          <ModalBody padding='30px'>
+            <AddUserSection onClose={onClose} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
