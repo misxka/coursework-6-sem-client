@@ -20,6 +20,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -27,13 +28,14 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { FaAngleLeft, FaAngleRight, FaEllipsisH } from 'react-icons/fa';
+import { FaAngleLeft, FaAngleRight, FaEllipsisH, FaFilter } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
 import IUser from '../../interfaces/IUser';
-import { getUsersByPageAndSize, patchUser } from '../../utils/api-calls/user';
+import { getUsersByPageAndSize, getUsersFiltered, patchUser } from '../../utils/api-calls/user';
 import { RootState } from '../../utils/store';
 import AddUserSection from '../AddUserSection/AddUserSection';
+import FilterDrawer from '../FilterDrawer/FilterDrawer';
 import UserRowActions from '../UserRowActions/UserRowActions';
 
 import styles from './UsersTable.module.scss';
@@ -43,6 +45,7 @@ export default function UsersTable() {
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpenDrawer, onOpen: onOpenDrawer, onClose: onCloseDrawer } = useDisclosure();
 
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
@@ -166,9 +169,30 @@ export default function UsersTable() {
     else return null;
   };
 
+  const filterUsers = async (login: string, email: string, fullname: string, role: string) => {
+    setIsUploading(true);
+
+    const { content, totalPages, first, last } = await getUsersFiltered({
+      page: page - 1,
+      size,
+      field: sortField,
+      direction: sortDirection,
+      login,
+      email,
+      fullname,
+      role
+    });
+
+    setUsers(content);
+    setLastPage(totalPages);
+
+    setIsUploading(false);
+  };
+
   return (
     <div className={styles.content}>
       <HStack display='flex' justifyContent='space-between'>
+        <IconButton onClick={onOpenDrawer} variant='outline' colorScheme='blue' aria-label='Поиск по параметрам' icon={<FaFilter />} />
         <Button colorScheme='green' onClick={onOpen}>
           Добавить пользователя
         </Button>
@@ -182,23 +206,23 @@ export default function UsersTable() {
         <Table variant='simple' size='sm'>
           <Thead>
             <Tr>
-              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('id')}>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('id')} minW='34px'>
                 ID
                 {renderSortIcon('id')}
               </Th>
-              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('login')}>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('login')} minW='200px  '>
                 Логин
                 {renderSortIcon('login')}
               </Th>
-              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('email')}>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('email')} minW='300px'>
                 Эл. почта
                 {renderSortIcon('email')}
               </Th>
-              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('fullname')}>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('fullname')} minW='260px'>
                 ФИО
                 {renderSortIcon('fullname')}
               </Th>
-              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('role')}>
+              <Th cursor='pointer' textAlign='center' onClick={() => sortUsers('role')} minW='150px'>
                 Роль
                 {renderSortIcon('role')}
               </Th>
@@ -248,6 +272,11 @@ export default function UsersTable() {
                 ))}
           </Tbody>
         </Table>
+        {!isFetching && lastPage === 0 ? (
+          <Text fontSize='4xl' fontWeight={500} textAlign='center' marginTop={24}>
+            К сожалению, пользователи не найдены.
+          </Text>
+        ) : null}
       </TableContainer>
       <ButtonGroup className={styles.pagingButtons} variant='outline' spacing='6'>
         <IconButton onClick={handlePreviousClick} colorScheme='blue' icon={<FaAngleLeft />} aria-label={''} />
@@ -281,6 +310,8 @@ export default function UsersTable() {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      <FilterDrawer filterUsers={filterUsers} onClose={onCloseDrawer} isOpen={isOpenDrawer} />
     </div>
   );
 }

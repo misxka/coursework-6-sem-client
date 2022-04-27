@@ -33,10 +33,40 @@ export type UpdateResponse = {
   user: IUser;
 } & DeleteResponse;
 
+export interface FilterRequest {
+  login: string;
+  email: string;
+  fullname: string;
+  role: string;
+  page: number;
+  size: number;
+  field: string;
+  direction: boolean;
+}
+
 const getUsersByPageAndSize = async (page: number, size: number, field: string, direction: boolean) => {
   const { data } = await axios.get<IUsersPagingResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/users`, {
     headers: { Authorization: `${localStorage.getItem('token')}` },
     params: {
+      page,
+      size,
+      field,
+      direction
+    }
+  });
+  return data;
+};
+
+const getUsersFiltered = async (request: FilterRequest) => {
+  const { login, email, fullname, role, page, size, field, direction } = request;
+
+  const { data } = await axios.get<IUsersPagingResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/users/filter`, {
+    headers: { Authorization: `${localStorage.getItem('token')}` },
+    params: {
+      login,
+      email,
+      fullname,
+      role,
       page,
       size,
       field,
@@ -75,4 +105,4 @@ const patchUser = async (id: number | undefined, field: string, value: string) =
   return updateResult;
 };
 
-export { getUsersByPageAndSize, deleteUser, patchUser };
+export { getUsersByPageAndSize, deleteUser, patchUser, getUsersFiltered };
