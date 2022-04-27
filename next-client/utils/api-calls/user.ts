@@ -29,6 +29,10 @@ export type DeleteResponse = {
   message: string;
 };
 
+export type UpdateResponse = {
+  user: IUser;
+} & DeleteResponse;
+
 const getUsersByPageAndSize = async (page: number, size: number) => {
   const { data } = await axios.get<IUsersPagingResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/users`, {
     headers: { Authorization: `${localStorage.getItem('token')}` },
@@ -49,4 +53,24 @@ const deleteUser = async (id?: number) => {
   return deleteResult;
 };
 
-export { getUsersByPageAndSize, deleteUser };
+const patchUser = async (id: number | undefined, field: string, value: string) => {
+  const { data: updateResult } = await axios.patch<UpdateResponse>(
+    `${process.env.NEXT_PUBLIC_HOST}/api/users/${id}`,
+    [
+      {
+        op: 'replace',
+        path: `/${field}`,
+        value: value
+      }
+    ],
+    {
+      headers: {
+        'Content-Type': 'application/json-patch+json',
+        Authorization: `${localStorage.getItem('token')}`
+      }
+    }
+  );
+  return updateResult;
+};
+
+export { getUsersByPageAndSize, deleteUser, patchUser };

@@ -22,14 +22,15 @@ import {
   Th,
   Thead,
   Tr,
-  useDisclosure
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight, FaEllipsisH } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
 import IUser from '../../interfaces/IUser';
-import { getUsersByPageAndSize } from '../../utils/api-calls/user';
+import { getUsersByPageAndSize, patchUser } from '../../utils/api-calls/user';
 import { RootState } from '../../utils/store';
 import AddUserSection from '../AddUserSection/AddUserSection';
 import UserRowActions from '../UserRowActions/UserRowActions';
@@ -39,6 +40,7 @@ import styles from './UsersTable.module.scss';
 export default function UsersTable() {
   const user = useSelector((state: RootState) => state.user.value);
 
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [page, setPage] = useState<number>(1);
@@ -91,7 +93,7 @@ export default function UsersTable() {
               <Skeleton w={250} height='22px' />
             </Td>
             <Td>
-              <Skeleton w={140} height='22px' />
+              <Skeleton w={150} height='22px' />
             </Td>
             <Td>
               <Skeleton w={10} height='22px' />
@@ -111,6 +113,39 @@ export default function UsersTable() {
     setLastPage(totalPages);
 
     setIsUploading(false);
+  };
+
+  const updateUser = async (id: number | undefined, field: string, value: string) => {
+    setIsUploading(true);
+
+    const updateResult = await patchUser(id, field, value);
+
+    if (updateResult.status === 200) {
+      const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size);
+
+      setUsers(content);
+      setLastPage(totalPages);
+
+      setIsUploading(false);
+
+      toast({
+        title: updateResult.message,
+        status: 'success',
+        duration: 5000,
+        position: 'bottom-right',
+        isClosable: true
+      });
+    } else {
+      setIsUploading(false);
+
+      toast({
+        title: updateResult.message,
+        status: 'error',
+        duration: 5000,
+        position: 'bottom-right',
+        isClosable: true
+      });
+    }
   };
 
   return (
@@ -151,26 +186,27 @@ export default function UsersTable() {
                     <Td>
                       <Editable textAlign='center' w='200px' defaultValue={user.login}>
                         <EditablePreview />
-                        <EditableInput />
+                        <EditableInput onBlur={e => updateUser(user.id, 'login', e.target.value)} />
                       </Editable>
                     </Td>
                     <Td>
                       <Editable textAlign='center' w='300px' defaultValue={user.email}>
                         <EditablePreview />
-                        <EditableInput />
+                        <EditableInput onBlur={e => updateUser(user.id, 'email', e.target.value)} />
                       </Editable>
                     </Td>
                     <Td>
                       <Editable textAlign='center' w='260px' defaultValue={user.fullname}>
                         <EditablePreview />
-                        <EditableInput />
+                        <EditableInput onBlur={e => updateUser(user.id, 'fullname', e.target.value)} />
                       </Editable>
                     </Td>
                     <Td>
-                      <Editable textAlign='center' w='140px' defaultValue={user.role}>
-                        <EditablePreview />
-                        <EditableInput />
-                      </Editable>
+                      <Select onChange={e => updateUser(user.id, 'role', e.target.value)} marginLeft='auto' w={150} defaultValue={user.role} size='sm'>
+                        <option value='STUDENT'>Студент</option>
+                        <option value='TEACHER'>Преподаватель</option>
+                        <option value='ADMIN'>Администратор</option>
+                      </Select>
                     </Td>
                     <Td paddingTop='2px' paddingBottom='2px'>
                       <UserRowActions id={user.id} updateUsersOnDelete={updateUsersOnDelete}></UserRowActions>
