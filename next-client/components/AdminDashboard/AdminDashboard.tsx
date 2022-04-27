@@ -1,11 +1,15 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { useState } from 'react';
 
+import IUser from '../../interfaces/IUser';
 import Metrics from '../Metrics/Metrics';
 import UsersTable from '../UsersTable/UsersTable';
 
 import styles from './AdminDashboard.module.scss';
 
 export default function AdminDashboard() {
+  const [users, setUsers] = useState<IUser[]>([]);
+
   return (
     <Tabs className={styles.content} variant='enclosed'>
       <TabList>
@@ -14,10 +18,10 @@ export default function AdminDashboard() {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <UsersTable />
+          <UsersTable users={users as any} setUsers={setUsers} />
         </TabPanel>
         <TabPanel>
-          <Metrics />
+          <Metrics users={users as any} />
         </TabPanel>
       </TabPanels>
     </Tabs>

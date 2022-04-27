@@ -31,8 +31,7 @@ import { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight, FaEllipsisH, FaFilter } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
-import IUser from '../../interfaces/IUser';
-import { getUsersByPageAndSize, getUsersFiltered, patchUser } from '../../utils/api-calls/user';
+import { getUsersByPageAndSize, getUsersFiltered, IUser, patchUser } from '../../utils/api-calls/user';
 import { RootState } from '../../utils/store';
 import AddUserSection from '../AddUserSection/AddUserSection';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
@@ -40,7 +39,14 @@ import UserRowActions from '../UserRowActions/UserRowActions';
 
 import styles from './UsersTable.module.scss';
 
-export default function UsersTable() {
+interface Props {
+  users: IUser[];
+  setUsers: (users: IUser[]) => void;
+}
+
+export default function UsersTable(props: Props) {
+  const { users, setUsers } = props;
+
   const user = useSelector((state: RootState) => state.user.value);
 
   const toast = useToast();
@@ -49,7 +55,6 @@ export default function UsersTable() {
 
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(8);
-  const [users, setUsers] = useState<IUser[]>([]);
   const [lastPage, setLastPage] = useState<number>(1);
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
