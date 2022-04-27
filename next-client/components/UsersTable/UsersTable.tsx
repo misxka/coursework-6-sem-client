@@ -14,6 +14,7 @@ import {
   ModalOverlay,
   Select,
   Skeleton,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -46,6 +47,7 @@ export default function UsersTable() {
   const [lastPage, setLastPage] = useState<number>(1);
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -100,6 +102,17 @@ export default function UsersTable() {
     );
   };
 
+  const updateUsersOnDelete = async (id?: number) => {
+    setIsUploading(true);
+
+    const { content, totalPages, first, last } = await getUsersByPageAndSize(page - 1, size);
+
+    setUsers(content);
+    setLastPage(totalPages);
+
+    setIsUploading(false);
+  };
+
   return (
     <div className={styles.content}>
       <HStack display='flex' justifyContent='space-between'>
@@ -124,7 +137,12 @@ export default function UsersTable() {
               <Th textAlign='center'></Th>
             </Tr>
           </Thead>
-          <Tbody>
+          <Tbody position='relative'>
+            {isUploading ? (
+              <div className={styles.loadingStub}>
+                <Spinner w={130} h={130} color='blue.400' speed='0.8s' thickness='6px' />
+              </div>
+            ) : null}
             {isFetching
               ? composeTableSkeleton()
               : users.map(user => (
@@ -155,7 +173,7 @@ export default function UsersTable() {
                       </Editable>
                     </Td>
                     <Td paddingTop='2px' paddingBottom='2px'>
-                      <UserRowActions id={user.id}></UserRowActions>
+                      <UserRowActions id={user.id} updateUsersOnDelete={updateUsersOnDelete}></UserRowActions>
                     </Td>
                   </Tr>
                 ))}

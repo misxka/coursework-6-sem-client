@@ -24,6 +24,11 @@ export interface IUsersPagingResponse {
   empty: boolean;
 }
 
+export type DeleteResponse = {
+  status: number;
+  message: string;
+};
+
 const getUsersByPageAndSize = async (page: number, size: number) => {
   const { data } = await axios.get<IUsersPagingResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/users`, {
     headers: { Authorization: `${localStorage.getItem('token')}` },
@@ -35,4 +40,13 @@ const getUsersByPageAndSize = async (page: number, size: number) => {
   return data;
 };
 
-export { getUsersByPageAndSize };
+const deleteUser = async (id?: number) => {
+  const { data: deleteResult } = await axios.delete<DeleteResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/users/${id}`, {
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`
+    }
+  });
+  return deleteResult;
+};
+
+export { getUsersByPageAndSize, deleteUser };
