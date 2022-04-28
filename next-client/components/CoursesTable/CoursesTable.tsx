@@ -35,6 +35,7 @@ import { useSelector } from 'react-redux';
 import { getCoursesByPageAndSize, getCoursesFiltered, ICourse, patchCourse } from '../../utils/api-calls/course';
 import { RootState } from '../../utils/store';
 import AddUserSection from '../AddUserSection/AddUserSection';
+import CourseRowActions from '../CourseRowActions/CourseRowActions';
 
 import styles from './CoursesTable.module.scss';
 
@@ -231,6 +232,7 @@ export default function CoursesTable() {
                 Цена
                 {renderSortIcon('price')}
               </Th>
+              <Th textAlign='center'></Th>
             </Tr>
           </Thead>
           <Tbody position='relative'>
@@ -270,6 +272,9 @@ export default function CoursesTable() {
                         <EditablePreview />
                         <EditableInput onBlur={e => updateCourse(course.id, 'price', e.target.value)} />
                       </Editable>
+                    </Td>
+                    <Td paddingTop='2px' paddingBottom='2px'>
+                      <CourseRowActions id={course.id} updateCourses={updateCourses}></CourseRowActions>
                     </Td>
                   </Tr>
                 ))}
