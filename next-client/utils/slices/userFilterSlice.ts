@@ -21,8 +21,8 @@ const initialState: FilterState = {
   }
 };
 
-export const filterSlice = createSlice({
-  name: 'filter',
+export const userFilterSlice = createSlice({
+  name: 'userFilter',
   initialState,
   reducers: {
     update: (state, action: PayloadAction<IFilter>) => {
@@ -31,6 +31,6 @@ export const filterSlice = createSlice({
   }
 });
 
-export const { update } = filterSlice.actions;
+export const { update } = userFilterSlice.actions;
 
-export default filterSlice.reducer;
+export default userFilterSlice.reducer;

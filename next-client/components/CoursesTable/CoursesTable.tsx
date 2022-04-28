@@ -36,6 +36,7 @@ import { getCoursesByPageAndSize, getCoursesFiltered, ICourse, patchCourse } fro
 import { RootState } from '../../utils/store';
 import AddUserSection from '../AddUserSection/AddUserSection';
 import CourseRowActions from '../CourseRowActions/CourseRowActions';
+import CoursesFilterDrawer from '../CoursesFilterDrawer/CoursesFilterDrawer';
 
 import styles from './CoursesTable.module.scss';
 
@@ -169,7 +170,7 @@ export default function CoursesTable() {
     else return null;
   };
 
-  const filterUsers = async (title: string, language: string, level: string, isOnline: boolean, priceMin: number, priceMax: number) => {
+  const filterCourses = async (title: string, language: string, level: string, priceMin: number, priceMax: number, isOnline: boolean) => {
     setIsUploading(true);
 
     const { content, totalPages, first, last } = await getCoursesFiltered({
@@ -318,6 +319,8 @@ export default function CoursesTable() {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      <CoursesFilterDrawer filterCourses={filterCourses} onClose={onCloseDrawer} isOpen={isOpenDrawer} />
     </div>
   );
 }

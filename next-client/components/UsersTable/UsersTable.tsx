@@ -34,7 +34,7 @@ import { useSelector } from 'react-redux';
 import { getUsersByPageAndSize, getUsersFiltered, IUser, patchUser } from '../../utils/api-calls/user';
 import { RootState } from '../../utils/store';
 import AddUserSection from '../AddUserSection/AddUserSection';
-import FilterDrawer from '../FilterDrawer/FilterDrawer';
+import UsersFilterDrawer from '../UsersFilterDrawer/UsersFilterDrawer';
 import UserRowActions from '../UserRowActions/UserRowActions';
 
 import styles from './UsersTable.module.scss';
@@ -316,7 +316,7 @@ export default function UsersTable(props: Props) {
         </ModalContent>
       </Modal>
 
-      <FilterDrawer filterUsers={filterUsers} onClose={onCloseDrawer} isOpen={isOpenDrawer} />
+      <UsersFilterDrawer filterUsers={filterUsers} onClose={onCloseDrawer} isOpen={isOpenDrawer} />
     </div>
   );
 }

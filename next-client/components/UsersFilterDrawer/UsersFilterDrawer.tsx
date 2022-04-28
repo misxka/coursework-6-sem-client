@@ -1,10 +1,10 @@
 import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Select } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { update } from '../../utils/slices/filterSlice';
+import { update } from '../../utils/slices/userFilterSlice';
 import { RootState } from '../../utils/store';
 
-import styles from './FilterDrawer.module.scss';
+import styles from './UsersFilterDrawer.module.scss';
 
 interface Props {
   isOpen: boolean;
@@ -12,10 +12,10 @@ interface Props {
   filterUsers: (login: string, email: string, fullname: string, role: string) => Promise<void>;
 }
 
-export default function FilterDrawer(props: Props) {
+export default function UsersFilterDrawer(props: Props) {
   const { isOpen, onClose, filterUsers } = props;
 
-  const filter = useSelector((state: RootState) => state.filter.value);
+  const filter = useSelector((state: RootState) => state.userFilter.value);
   const dispatch = useDispatch();
 
   const clearFilters = () => {

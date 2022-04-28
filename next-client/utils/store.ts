@@ -4,7 +4,8 @@ import modeReducer from '../utils/slices/modeSlice';
 import gameStartedReducer from '../utils/slices/gameStartedSlice';
 import guessedReducer from '../utils/slices/guessedSlice';
 import userReducer from '../utils/slices/userSlice';
-import filterReducer from '../utils/slices/filterSlice';
+import userFilterReducer from './slices/userFilterSlice';
+import courseFilterReducer from './slices/courseFilterSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
     gameStarted: gameStartedReducer,
     guessed: guessedReducer,
     user: userReducer,
-    filter: filterReducer
+    userFilter: userFilterReducer,
+    courseFilter: courseFilterReducer
   }
 });
 
