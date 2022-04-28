@@ -21,6 +21,9 @@ function Navbar() {
       <Link href='/categories/studio'>
         <a className={`${styles.link} ${router.pathname == '/categories/studio' ? styles.currentLink : ''}`}>Мастерская</a>
       </Link>
+      <Link href='/courses'>
+        <a className={`${styles.link} ${router.pathname == '/courses' ? styles.currentLink : ''}`}>Курсы</a>
+      </Link>
     </div>
   );
 
