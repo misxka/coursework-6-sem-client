@@ -44,6 +44,14 @@ export interface FilterRequest {
   direction: boolean;
 }
 
+export interface YearStatsResponse {
+  yearStats: {
+    student: number[];
+    teacher: number[];
+    admin: number[];
+  };
+}
+
 const getUsersByPageAndSize = async (page: number, size: number, field: string, direction: boolean) => {
   const { data } = await axios.get<IUsersPagingResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/users`, {
     headers: { Authorization: `${localStorage.getItem('token')}` },
@@ -115,4 +123,11 @@ const getStats = async (role: string) => {
   return data;
 };
 
-export { getUsersByPageAndSize, deleteUser, patchUser, getUsersFiltered, getStats };
+const getYearStats = async () => {
+  const { data } = await axios.get<YearStatsResponse>(`${process.env.NEXT_PUBLIC_HOST}/api/users/year-stats`, {
+    headers: { Authorization: `${localStorage.getItem('token')}` }
+  });
+  return data;
+};
+
+export { getUsersByPageAndSize, deleteUser, patchUser, getUsersFiltered, getStats, getYearStats };

@@ -2,12 +2,20 @@
   min-height: inherit;
   padding: 30px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   width: 1240px;
 }
 
 .pieChart {
   width: 36%;
+}
+
+.barChart {
+  width: 50%;
+
+  & .chartTitle {
+    margin-bottom: 100px;
+  }
 }
 
 .chartTitle {
