@@ -34,7 +34,7 @@ import { useSelector } from 'react-redux';
 
 import { getCoursesByPageAndSize, getCoursesFiltered, ICourse, patchCourse } from '../../utils/api-calls/course';
 import { RootState } from '../../utils/store';
-import AddUserSection from '../AddUserSection/AddUserSection';
+import AddCourseSection from '../AddCourseSection/AddCourseSection';
 import CourseRowActions from '../CourseRowActions/CourseRowActions';
 import CoursesFilterDrawer from '../CoursesFilterDrawer/CoursesFilterDrawer';
 
@@ -315,7 +315,7 @@ export default function CoursesTable() {
           <ModalHeader></ModalHeader>
           <ModalCloseButton />
           <ModalBody padding='30px'>
-            <AddUserSection onClose={onClose} />
+            <AddCourseSection onClose={onClose} />
           </ModalBody>
         </ModalContent>
       </Modal>
