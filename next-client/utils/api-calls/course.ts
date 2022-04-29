@@ -111,4 +111,11 @@ const getCoursesByStudentId = async (id: number | undefined) => {
   return data;
 };
 
-export { getCoursesByPageAndSize, getCoursesFiltered, deleteCourse, patchCourse, getCoursesByStudentId };
+const getPersonalCourses = async (id: number | undefined) => {
+  const { data } = await axios.get<ICourse[]>(`${process.env.NEXT_PUBLIC_HOST}/api/courses/students/self/${id}`, {
+    headers: { Authorization: `${localStorage.getItem('token')}` }
+  });
+  return data;
+};
+
+export { getCoursesByPageAndSize, getCoursesFiltered, deleteCourse, patchCourse, getCoursesByStudentId, getPersonalCourses };
