@@ -98,7 +98,7 @@ const AdminCategoryPage: NextPage = () => {
   return (
     <Layout
       home={false}
-      pageTitle={'name'}
+      pageTitle={'Работа с карточками'}
       headerContent={
         <>
           <Navbar />

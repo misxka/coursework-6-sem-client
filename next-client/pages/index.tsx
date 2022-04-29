@@ -4,9 +4,10 @@ import { CategoryCard } from '../components/CategoryCard/CategoryCard';
 import { Category, getAllCategories } from '../utils/api-calls/category';
 import Navbar from '../components/Navbar/Navbar';
 
-import styles from '../styles/Home.module.scss';
 import Layout from '../components/Layout/Layout';
 import GameModeButton from '../components/GameModeButton/GameModeButton';
+
+import styles from '../styles/Home.module.scss';
 
 interface Props {
   categories: Category[];

@@ -35,6 +35,14 @@ function Navbar() {
     </div>
   );
 
+  const studentLinks = (
+    <div className={styles.links}>
+      <Link href='/student-courses'>
+        <a className={`${styles.link} ${router.pathname == '/student-courses' ? styles.currentLink : ''}`}>Курсы</a>
+      </Link>
+    </div>
+  );
+
   useEffect(() => {
     if (didMount || user.role) {
       if (user.role === 'TEACHER') {
@@ -42,6 +50,9 @@ function Navbar() {
         return;
       } else if (user.role === 'ADMIN') {
         setLinks(adminLinks);
+        return;
+      } else if (user.role === 'STUDENT') {
+        setLinks(studentLinks);
         return;
       }
       setLinks(<></>);

@@ -130,4 +130,15 @@ const getYearStats = async () => {
   return data;
 };
 
-export { getUsersByPageAndSize, deleteUser, patchUser, getUsersFiltered, getStats, getYearStats };
+const applyCourse = async (userId: number | undefined, courseId: number) => {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_HOST}/api/users/${userId}/courses/${courseId}`,
+    {},
+    {
+      headers: { Authorization: `${localStorage.getItem('token')}` }
+    }
+  );
+  return data;
+};
+
+export { getUsersByPageAndSize, deleteUser, patchUser, getUsersFiltered, getStats, getYearStats, applyCourse };
